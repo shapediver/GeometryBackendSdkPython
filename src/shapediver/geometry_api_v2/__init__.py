@@ -1,10 +1,7 @@
-import sys
+from importlib.metadata import PackageNotFoundError, version  # pragma: no cover
 
-if sys.version_info[:2] >= (3, 8):
-    # TODO: Import directly (no need for conditional) when `python_requires = >= 3.8`
-    from importlib.metadata import PackageNotFoundError, version  # pragma: no cover
-else:
-    from importlib_metadata import PackageNotFoundError, version  # pragma: no cover
+# import custom classes into sdk package
+from shapediver.geometry_api_v2.sd_client import SdClient
 
 try:
     # Change here if project is renamed and does not equal the package name
