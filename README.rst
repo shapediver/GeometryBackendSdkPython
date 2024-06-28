@@ -64,13 +64,9 @@ An SDK for the `ShapeDiver Platform API <https://app.shapediver.com/api/document
 released soon.
 
 When obtaining a ticket for your model from the ShapeDiver Platform, please be aware that you will
-need a
-
-- *ticket for direct embedding* in case you are accessing the Geometry Backend API from a web
-  browser, or a
-
-- *ticket for backend access* in case you are accessing the Geometry Backend API from an arbitrary
-  client application that is not a web browser.
+need a *ticket for backend access*, since you are accessing the Geometry Backend API from an
+arbitrary client application that is not a web browser. For more details see the `ShapeDiver
+Help Center developer settings <https://help.shapediver.com/doc/developers-settings>`_
 
 
 Base URL
