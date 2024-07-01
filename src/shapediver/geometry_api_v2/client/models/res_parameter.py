@@ -54,7 +54,8 @@ class ResParameter(BaseModel):
     tooltip: Optional[StrictStr] = Field(default=None, description="Description that is shown as a tooltip in the clients.")
     displayname: Optional[StrictStr] = Field(default=None, description="Parameter name to display instead of `name`.")
     hidden: StrictBool = Field(description="Controls whether the parameter should be hidden in the UI.")
-    __properties: ClassVar[List[str]] = ["id", "choices", "decimalplaces", "defval", "expression", "format", "min", "max", "umin", "umax", "vmin", "vmax", "interval", "name", "type", "visualization", "structure", "group", "hint", "order", "tooltip", "displayname", "hidden"]
+    settings: Optional[Dict[str, Any]] = Field(default=None, description="Holds parameter-type specific information.")
+    __properties: ClassVar[List[str]] = ["id", "choices", "decimalplaces", "defval", "expression", "format", "min", "max", "umin", "umax", "vmin", "vmax", "interval", "name", "type", "visualization", "structure", "group", "hint", "order", "tooltip", "displayname", "hidden", "settings"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -132,7 +133,8 @@ class ResParameter(BaseModel):
             "order": obj.get("order"),
             "tooltip": obj.get("tooltip"),
             "displayname": obj.get("displayname"),
-            "hidden": obj.get("hidden")
+            "hidden": obj.get("hidden"),
+            "settings": obj.get("settings")
         })
         return _obj
 

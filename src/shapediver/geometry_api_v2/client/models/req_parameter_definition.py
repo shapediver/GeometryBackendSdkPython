@@ -32,7 +32,8 @@ class ReqParameterDefinition(BaseModel):
     hidden: Optional[StrictBool] = Field(default=None, description="Controls whether the parameter should be hidden in the UI.")
     order: Optional[StrictInt] = Field(default=None, description="Ordering of the parameter in client applications.")
     tooltip: Optional[StrictStr] = Field(default=None, description="Description that is shown as a tooltip in the clients.")
-    __properties: ClassVar[List[str]] = ["displayname", "group", "hidden", "order", "tooltip"]
+    settings: Optional[Dict[str, Any]] = Field(default=None, description="Holds parameter-type specific information.")
+    __properties: ClassVar[List[str]] = ["displayname", "group", "hidden", "order", "tooltip", "settings"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -92,7 +93,8 @@ class ReqParameterDefinition(BaseModel):
             "group": ReqParameterDefinitionGroup.from_dict(obj["group"]) if obj.get("group") is not None else None,
             "hidden": obj.get("hidden"),
             "order": obj.get("order"),
-            "tooltip": obj.get("tooltip")
+            "tooltip": obj.get("tooltip"),
+            "settings": obj.get("settings")
         })
         return _obj
 
