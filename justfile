@@ -80,11 +80,8 @@ release version:
     tox -e publish
     tox -e publish -- --repository pypi
 
-    # Push to git
-    echo "Pushing tag v{{version}} to Git..."
-    git push v{{version}}
-    echo "Pushing branch main to Git..."
-    git push origin main
+    # Pushing branch main and tag v{{version}} to Git
+    git push --atomic origin v{{version}} main
 
 
 # Generate the Python client from the OpenAPI specification.
