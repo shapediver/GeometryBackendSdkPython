@@ -540,6 +540,14 @@ shapediver.geometry\_api\_v2.client.models.res\_asset\_definition module
    :undoc-members:
    :show-inheritance:
 
+shapediver.geometry\_api\_v2.client.models.res\_asset\_upload\_headers module
+-----------------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_asset_upload_headers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 shapediver.geometry\_api\_v2.client.models.res\_authorization\_settings module
 ------------------------------------------------------------------------------
 
