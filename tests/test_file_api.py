@@ -51,7 +51,7 @@ def test_file_parameter(utils, host, jwt_model):
         assert file
 
         # Upload the file.
-        res_upload = sd_utils.upload(file.href, s, format, filename)
+        res_upload = sd_utils.upload_asset(file.href, s, file.headers)
         assert res_upload.status == 200
 
     # Download the uploaded file.
@@ -65,6 +65,9 @@ def test_file_parameter(utils, host, jwt_model):
         session_id, file_params[0].id, file.id
     )
     assert res_metadata.status_code == 200
+    file_info = sd_utils.extract_file_info(res_metadata.headers)
+    assert file_info.filename == filename
+    assert file_info.size == len(s)
 
     # List all files of a specific file-parameter.
     res_list = FileApi(model_client).list_files(session_id, file_params[0].id)

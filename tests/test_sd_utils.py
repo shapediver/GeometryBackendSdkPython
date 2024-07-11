@@ -22,6 +22,54 @@ from shapediver.geometry_api_v2.client import (
 )
 
 
+class Test_extract_file_info(TestCase):
+
+    def test_no_header(self):
+        res = sd_utils.extract_file_info(None)
+        assert res.filename is None
+        assert res.size is None
+
+    def test_full_header(self):
+        res = sd_utils.extract_file_info(
+            {
+                "Content-Length": "165030",
+                "Content-Disposition": 'attachment ; filename="foobar.txt"',
+            }
+        )
+        assert res.filename == "foobar.txt"
+        assert res.size == 165030
+
+
+class Test_content_disposition_from_filename(TestCase):
+
+    def test_ascii_characters(self):
+        res = sd_utils._content_disposition_from_filename("foobar.txt")
+        assert res == 'attachment; filename="foobar.txt"'
+
+    def test_non_ascii_characters(self):
+        res = sd_utils._content_disposition_from_filename("ä€öü.jpg")
+        assert (
+            res
+            == 'attachment; filename="aou.jpg"; '
+            + "filename*=UTF-8''a%CC%88%E2%82%ACo%CC%88u%CC%88.jpg"
+        )
+
+
+class Test_filename_from_content_disposition(TestCase):
+
+    def test_ascii_characters(self):
+        res = sd_utils._filename_from_content_disposition(
+            'attachment; filename="foobar.txt"'
+        )
+        assert res == "foobar.txt"
+
+    def test_non_ascii_characters(self):
+        res = sd_utils._filename_from_content_disposition(
+            "attachment; filename=\"aou.jpg\"; filename*=UTF-8''a%CC%88%E2%82%ACo%CC%88u%CC%88.jpg"
+        )
+        assert res == "ä€öü.jpg"
+
+
 class Test_wait_for_output_result(TestCase):
 
     client = SdClient()

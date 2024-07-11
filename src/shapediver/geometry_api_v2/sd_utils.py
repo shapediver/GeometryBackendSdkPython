@@ -1,5 +1,8 @@
+import re
 import time
-from typing import Any, Optional, Union
+import unicodedata
+import urllib.parse
+from typing import Any, Mapping, Optional, Union
 
 from shapediver.geometry_api_v2.client import (
     ApiException,
@@ -11,6 +14,7 @@ from shapediver.geometry_api_v2.client import (
     ReqCustomizationOrCache,
     ReqExport,
     ReqExportOrCache,
+    ResAssetUploadHeaders,
     ResComputeExports,
     ResComputeOutputs,
     ResExport,
@@ -41,12 +45,36 @@ def upload(
     # Prepare headers for the upload.
     headers = {"Content-Type": content_type}
     if filename:
-        headers["Content-Disposition"] = f'attachment; filename="{filename}"'
+        headers["Content-Disposition"] = _content_disposition_from_filename(filename)
 
     # Create new client instance to remove authorization and custom headers.
     client = SdClient(Configuration(host=url))
 
     response_data = client.call_api("PUT", url, headers, data)
+    return response_data.response
+
+
+def upload_asset(
+    url: str,
+    data: Union[bytes, bytearray, dict[str, Any], str],
+    headers: ResAssetUploadHeaders,
+) -> rest.RESTResponseType:
+    """Upload the given asset to the specified ShapeDiver URL.
+
+    :param url: The target URL of the upload request.
+    :param data: The data that should be uploaded.
+    :param headers: The headers object that was returned from the request-upload call.
+    """
+
+    # Prepare headers for the upload.
+    resHeaders = {"Content-Type": headers.content_type}
+    if headers.content_disposition:
+        resHeaders["Content-Disposition"] = headers.content_disposition
+
+    # Create new client instance to remove authorization and custom headers.
+    client = SdClient(Configuration(host=url))
+
+    response_data = client.call_api("PUT", url, resHeaders, data)
     return response_data.response
 
 
@@ -61,6 +89,80 @@ def download(url: str) -> rest.RESTResponseType:
 
     response_data = client.call_api("GET", url)
     return response_data.response
+
+
+class FileInfo:
+    def __init__(self, size: Optional[int], filename: Optional[str]):
+        self.size = size
+        self.filename = filename
+
+
+def extract_file_info(headers: Optional[Mapping[str, str]]) -> FileInfo:
+    """
+    Parse HTTP headers to extract size and filename information.
+
+    :param headers: The HTTP headers of a file-metadata response.
+    """
+    if headers is None:
+        return FileInfo(size=None, filename=None)
+
+    # Extract size from Content-Length header
+    size = (
+        int(str(headers.get("Content-Length"))) if "Content-Length" in headers else None
+    )
+
+    # Extract filename from Content-Disposition header
+    filename = (
+        _filename_from_content_disposition(str(headers.get("Content-Disposition")))
+        if "Content-Disposition" in headers
+        else None
+    )
+
+    return FileInfo(size=size, filename=filename)
+
+
+def _content_disposition_from_filename(filename: str) -> str:
+    """
+    Set content headers according to RFC 5987
+
+    :param filename: The file name to use.
+    """
+    ascii_name = (
+        unicodedata.normalize("NFKD", filename).encode("ascii", "ignore").decode()
+    )
+    header = '{}; filename="{}"'.format("attachment", ascii_name)
+    if ascii_name != filename:
+        quoted_name = urllib.parse.quote(filename)
+        header += "; filename*=UTF-8''{}".format(quoted_name)
+
+    return header
+
+
+def _filename_from_content_disposition(content_disposition: str) -> Optional[str]:
+    """
+    Extract and return the filename from a content-disposition HTTP header.
+    Decodes the filename* property if set.
+
+    :param content_disposition: Content-Disposition header value
+    :return: Extracted filename
+    """
+    filename = None
+    filename_star = None
+
+    # Search for filename
+    match = re.search(r'filename="([^"]+)"', content_disposition)
+    if match:
+        filename = match.group(1)
+
+    # Search for filename*
+    match_star = re.search(r"filename\*=([^\'\']+\'\')?(.+)", content_disposition)
+    if match_star:
+        encoding = match_star.group(1)[:-2] if match_star.group(1) else "utf-8"
+        encoded_filename = match_star.group(2)
+        filename_star = urllib.parse.unquote(encoded_filename, encoding=encoding)
+
+    # Prefer filename* over filename
+    return filename_star if filename_star else filename
 
 
 def submit_and_wait_for_output(

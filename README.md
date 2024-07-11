@@ -98,6 +98,11 @@ password = <token of test user>
 Afterwards, run `just release <version>` to build, publish, and commit a new version of the Python
 package. The _version_ argument represents the new version of the package.
 
+## Test
+
+Unit and integration tests can be executed via `just test`. However, should you want to run only a
+single test file then use `tox -- <path>` instead.
+
 ## Note
 
 This project has been set up using _PyScaffold 4.5_. See [PyScaffold](https://pyscaffold.org/) for
