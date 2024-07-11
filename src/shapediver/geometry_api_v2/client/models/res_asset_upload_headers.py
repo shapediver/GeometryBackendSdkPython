@@ -18,19 +18,17 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List
-from shapediver.geometry_api_v2.client.models.res_asset_upload_headers import ResAssetUploadHeaders
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ResAssetDefinition(BaseModel):
+class ResAssetUploadHeaders(BaseModel):
     """
-    Result part for the response to an upload request for file/sdTF parameters.
+    HTTP headers to use when uploading an asset to ShapeDiver.
     """ # noqa: E501
-    id: StrictStr = Field(description="ID of the file to be uploaded.")
-    href: StrictStr = Field(description="href the file should be uploaded to (typically a time-limited pre-signed url).")
-    headers: ResAssetUploadHeaders
-    __properties: ClassVar[List[str]] = ["id", "href", "headers"]
+    content_disposition: Optional[StrictStr] = Field(default=None, description="The value of the Content-Disposition HTTP header.", alias="contentDisposition")
+    content_type: StrictStr = Field(description="The value of the Content-Type HTTP header.", alias="contentType")
+    __properties: ClassVar[List[str]] = ["contentDisposition", "contentType"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -50,7 +48,7 @@ class ResAssetDefinition(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ResAssetDefinition from a JSON string"""
+        """Create an instance of ResAssetUploadHeaders from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -71,14 +69,11 @@ class ResAssetDefinition(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of headers
-        if self.headers:
-            _dict['headers'] = self.headers.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ResAssetDefinition from a dict"""
+        """Create an instance of ResAssetUploadHeaders from a dict"""
         if obj is None:
             return None
 
@@ -86,9 +81,8 @@ class ResAssetDefinition(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "id": obj.get("id"),
-            "href": obj.get("href"),
-            "headers": ResAssetUploadHeaders.from_dict(obj["headers"]) if obj.get("headers") is not None else None
+            "contentDisposition": obj.get("contentDisposition"),
+            "contentType": obj.get("contentType")
         })
         return _obj
 

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
@@ -30,7 +30,8 @@ class ResFileInfo(BaseModel):
     id: StrictStr = Field(description="ID of the file.")
     parameter_id: StrictStr = Field(description="ID of the parameter that the file is assigned to.", alias="parameterId")
     size: Annotated[int, Field(strict=True, ge=0)] = Field(description="The size of the file in bytes.")
-    __properties: ClassVar[List[str]] = ["id", "parameterId", "size"]
+    filename: Optional[StrictStr] = Field(default=None, description="The name of the file, when specified during the upload.")
+    __properties: ClassVar[List[str]] = ["id", "parameterId", "size", "filename"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,7 +86,8 @@ class ResFileInfo(BaseModel):
         _obj = cls.model_validate({
             "id": obj.get("id"),
             "parameterId": obj.get("parameterId"),
-            "size": obj.get("size")
+            "size": obj.get("size"),
+            "filename": obj.get("filename")
         })
         return _obj
 

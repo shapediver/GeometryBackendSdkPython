@@ -81,6 +81,7 @@ from shapediver.geometry_api_v2.client.models.res_any_credit_metric import ResAn
 from shapediver.geometry_api_v2.client.models.res_ar_credit_metric import ResArCreditMetric
 from shapediver.geometry_api_v2.client.models.res_asset import ResAsset
 from shapediver.geometry_api_v2.client.models.res_asset_definition import ResAssetDefinition
+from shapediver.geometry_api_v2.client.models.res_asset_upload_headers import ResAssetUploadHeaders
 from shapediver.geometry_api_v2.client.models.res_authorization_settings import ResAuthorizationSettings
 from shapediver.geometry_api_v2.client.models.res_base_credit_metric import ResBaseCreditMetric
 from shapediver.geometry_api_v2.client.models.res_cleanup_exports import ResCleanupExports
