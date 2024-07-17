@@ -57,15 +57,27 @@ class Test_content_disposition_from_filename(TestCase):
 
 class Test_filename_from_content_disposition(TestCase):
 
+    def test_invalid_format(self):
+        res = sd_utils._filename_from_content_disposition(
+            'attachment; somethign="else"'
+        )
+        assert res is None
+
     def test_ascii_characters(self):
         res = sd_utils._filename_from_content_disposition(
             'attachment; filename="foobar.txt"'
         )
         assert res == "foobar.txt"
 
-    def test_non_ascii_characters(self):
+    def test_non_ascii_characters_with_encoding(self):
         res = sd_utils._filename_from_content_disposition(
             "attachment; filename=\"aou.jpg\"; filename*=UTF-8''a%CC%88%E2%82%ACo%CC%88u%CC%88.jpg"
+        )
+        assert res == "ä€öü.jpg"
+
+    def test_non_ascii_characters_without_encoding(self):
+        res = sd_utils._filename_from_content_disposition(
+            'attachment; filename="aou.jpg"; filename*=a%CC%88%E2%82%ACo%CC%88u%CC%88.jpg'
         )
         assert res == "ä€öü.jpg"
 
