@@ -9,6 +9,9 @@ remote_file_name := "geometry_backend_v2.yaml"
 spec_file := "oas_spec.yaml"
 target_dir := "./out"
 
+# Path of the local OAS repository.
+oas_repo := "../OpenApiSpecifications/"
+
 # Executes the 'build' recipe.
 default: build
 
@@ -121,6 +124,15 @@ generate version:
     # Commit changes.
     git add -A .
     git commit -m "Generate spec version {{version}}"
+
+# Tests the Python client generation with the current version of the checked out OAS repo.
+test-generator:
+    openapi-generator-cli generate \
+        --package-name "shapediver.geometry_api_v2.client" \
+        --generate-alias-as-model \
+        --dry-run \
+        -i "{{oas_repo}}/geometry_backend_v2.yaml" \
+        -g python
 
 # Updates dependencies.
 _update-deps:
