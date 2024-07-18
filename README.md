@@ -74,6 +74,9 @@ Afterwards, update the local file `./oas_spec.yaml` and generate the new code vi
 [ShapeDiver OAS](https://github.com/shapediver/OpenApiSpecifications/tags). For instance, use
 version "1.0.0" when targeting the Git tag "gb_v2@1.0.0".
 
+Alternatively, the client can be generated from a local file. Check out the [ShapeDiver OAS
+repository](https://github.com/shapediver/OpenApiSpecifications) and run `just generate local`.
+
 ## Release
 
 To release new versions of this package, create the file `~/.pypirc` with the following content:

@@ -95,10 +95,14 @@ generate version:
     # Stop when repo is dirty
     test -z "$(git diff --shortstat)"
 
-    # Fetch the requested version of the specification.
-    curl -f \
-      "{{remote_url}}/{{remote_tag_prefix}}%40{{version}}/{{remote_file_name}}" \
-      -o "{{spec_file}}"
+    # Either link local file or fetch the requested version of the specification.
+    if [ "{{version}}" == "local" ]; then \
+        \cp "{{oas_repo}}/geometry_backend_v2.yaml" "{{spec_file}}" ; \
+    else \
+        curl -f \
+          "{{remote_url}}/{{remote_tag_prefix}}%40{{version}}/{{remote_file_name}}" \
+          -o "{{spec_file}}" ; \
+    fi
 
     # Generate the Python client.
     mkdir -p "{{target_dir}}"
@@ -122,8 +126,10 @@ generate version:
     rm -rf "{{target_dir}}"
 
     # Commit changes.
-    git add -A .
-    git commit -m "Generate spec version {{version}}"
+    if [ "{{version}}" != "local" ]; then \
+        git add -A . ; \
+        git commit -m "Generate spec version {{version}}" ; \
+    fi
 
 # Tests the Python client generation with the current version of the checked out OAS repo.
 test-generator:
