@@ -128,6 +128,12 @@ Examples
 Examples on how to interact with available endpoints are given in the `tests
 <https://github.com/shapediver/GeometryBackendSdkPython/tree/main/tests>`_ folder.
 
+Versioning
+==========
+
+We take care to provide backwards compatibility for all older versions. However, new features might
+be limited to newer API versions. Therefore, we recommend always using the newest API version out
+there.
 
 Support
 =======
