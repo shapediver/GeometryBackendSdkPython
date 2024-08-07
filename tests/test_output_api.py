@@ -23,6 +23,7 @@ def test_outputs(utils, host, jwt_model, model_id):
     assert res_session.outputs and res_session.parameters
     assert len(res_session.outputs.keys()) > 0
 
+    # Get first output.
     output = next(iter(res_session.outputs.values())).actual_instance
     assert output
 

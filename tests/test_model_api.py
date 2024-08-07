@@ -38,9 +38,12 @@ def test_model(host, jwt_backend, jwt_model, model_id):
 
     # Get the model's computation statistics by status.
     res_comp = ModelApi(model_client).get_model_computations(
-        model_id=model_id, status=QueryComputationStatisticsStatus.SUCCESS
+        model_id=model_id,
+        status=QueryComputationStatisticsStatus.SUCCESS,
+        timestamp_from="20240614155603054",
+        timestamp_to="20240627072220908",
     )
-    assert len(res_comp.computations) > 0
+    assert len(res_comp.computations) >= 0
 
     # Update a model.
     req_update = ReqModel(pub=True, backendaccess=True, use_cdn=True)

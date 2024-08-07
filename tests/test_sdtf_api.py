@@ -15,9 +15,7 @@ def test_sdtf(utils, host, jwt_model):
 
     # Initialize a new session.
     ticket = utils.create_ticket()
-    res_session = SessionApi(client).create_session_by_ticket(ticket)
-    session_id = res_session.session_id
-    assert res_session.parameters
+    session_id = SessionApi(client).create_session_by_ticket(ticket).session_id
 
     # sdTF upload.
     with open("tests/data/test.sdtf", "rb") as f:
@@ -38,7 +36,7 @@ def test_sdtf(utils, host, jwt_model):
         assert sdtf
 
         # Upload the sdTF.
-        upload = sd_utils.upload(sdtf.href, s, ReqSdtfType.MODEL_SLASH_VND_DOT_SDTF)
+        upload = sd_utils.upload_asset(sdtf.href, s, sdtf.headers)
         assert upload.status == 200
 
     # Download the uploaded sdTF.

@@ -17,11 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
-from shapediver.geometry_api_v2.client.models.at_least_one_any_date_extended import AtLeastOneAnyDateExtended
-from shapediver.geometry_api_v2.client.models.at_least_one_uuid import AtLeastOneUuid
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -29,8 +27,8 @@ class ReqModelStatistic(BaseModel):
     """
     Parameters of a single model-session analytics request. When multiple model IDs or timestamps are requested, the resulting response-item represents an aggregation of the requested data.
     """ # noqa: E501
-    modelid: AtLeastOneUuid
-    timestamp: Optional[AtLeastOneAnyDateExtended] = Field(default=None, description="Multiple timestamps are aggregated and result in a single statistic object.")
+    modelid: List[StrictStr]
+    timestamp: Optional[List[Annotated[str, Field(strict=True)]]] = Field(default=None, description="Either a single extended date or an array of extended dates. Multiple timestamps are aggregated and result in a single statistic object.")
     timestamp_from: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="Allows to define the beginning of a time range, instead of specifying individual timestamps.")
     timestamp_to: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="Allows to define the ending of a time range, instead of specifying individual timestamps.")
     __properties: ClassVar[List[str]] = ["modelid", "timestamp", "timestamp_from", "timestamp_to"]
@@ -94,12 +92,6 @@ class ReqModelStatistic(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of modelid
-        if self.modelid:
-            _dict['modelid'] = self.modelid.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of timestamp
-        if self.timestamp:
-            _dict['timestamp'] = self.timestamp.to_dict()
         return _dict
 
     @classmethod
@@ -112,8 +104,8 @@ class ReqModelStatistic(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "modelid": AtLeastOneUuid.from_dict(obj["modelid"]) if obj.get("modelid") is not None else None,
-            "timestamp": AtLeastOneAnyDateExtended.from_dict(obj["timestamp"]) if obj.get("timestamp") is not None else None,
+            "modelid": obj.get("modelid"),
+            "timestamp": obj.get("timestamp"),
             "timestamp_from": obj.get("timestamp_from"),
             "timestamp_to": obj.get("timestamp_to")
         })

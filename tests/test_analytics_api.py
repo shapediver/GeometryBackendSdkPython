@@ -1,6 +1,5 @@
 from shapediver.geometry_api_v2.client import (
     AnalyticsApi,
-    AtLeastOneUuid,
     Configuration,
     ReqAnyCreditMetricId,
     ReqCreditMetric,
@@ -24,7 +23,7 @@ def test_model_session_statistics(utils, host, jwt_model, model_id):
     req_stats = ReqModelStatistics(
         parameters=[
             ReqModelStatistic(
-                modelid=AtLeastOneUuid(model_id),
+                modelid=[model_id],
                 timestamp_from="2024",
                 timestamp_to="2025",
             )
@@ -48,9 +47,7 @@ def test_credit_metrics(utils, host, jwt_model, model_id):
     req_credits = ReqCreditMetrics(
         parameters=[
             ReqCreditMetric(
-                id=ReqAnyCreditMetricId(
-                    ReqModelCreditMetricId(modelIds=AtLeastOneUuid(model_id))
-                ),
+                id=ReqAnyCreditMetricId(ReqModelCreditMetricId(modelIds=[model_id])),
                 timestamp_from="2024",
                 timestamp_to="2025",
             )
@@ -61,3 +58,37 @@ def test_credit_metrics(utils, host, jwt_model, model_id):
 
     # Close the session.
     SessionApi(model_client).close_session(session_id)
+
+
+def testUserCreditMetrics(host, jwt_backend):
+    backend_client = SdClient(Configuration(host, access_token=jwt_backend))
+
+    res_credits = AnalyticsApi(backend_client).get_user_credit_metrics("202407")
+    assert len(res_credits.analytics.credit_metrics) > 0
+
+
+def testOrganizationCreditMetrics(host, jwt_backend):
+    backend_client = SdClient(Configuration(host, access_token=jwt_backend))
+
+    res_credits = AnalyticsApi(backend_client).get_organization_credit_metrics("202407")
+    assert len(res_credits.analytics.credit_metrics) > 0
+
+
+def testModelUserCreditMetrics(host, jwt_model):
+    model_client = SdClient(Configuration(host, access_token=jwt_model))
+
+    user_id = "92a8410b-6496-4b86-8c3f-1014d59f7fa3"
+    res_credits = AnalyticsApi(model_client).get_model_user_credit_metrics(
+        "202407", user_id
+    )
+    assert len(res_credits.analytics.credit_metrics) > 0
+
+
+def testModelOrganizationCreditMetrics(host, jwt_model):
+    model_client = SdClient(Configuration(host, access_token=jwt_model))
+
+    org_id = "a785380e-183d-11ef-926a-f3f7d2b9f407"
+    res_credits = AnalyticsApi(model_client).get_model_organization_credit_metrics(
+        "202407", org_id
+    )
+    assert len(res_credits.analytics.credit_metrics) > 0

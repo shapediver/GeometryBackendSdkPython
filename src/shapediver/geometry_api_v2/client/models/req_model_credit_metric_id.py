@@ -17,9 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List
-from shapediver.geometry_api_v2.client.models.at_least_one_uuid import AtLeastOneUuid
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,7 +26,7 @@ class ReqModelCreditMetricId(BaseModel):
     """
     Model metrics
     """ # noqa: E501
-    model_ids: AtLeastOneUuid = Field(alias="modelIds")
+    model_ids: List[StrictStr] = Field(alias="modelIds")
     __properties: ClassVar[List[str]] = ["modelIds"]
 
     model_config = ConfigDict(
@@ -69,9 +68,6 @@ class ReqModelCreditMetricId(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of model_ids
-        if self.model_ids:
-            _dict['modelIds'] = self.model_ids.to_dict()
         return _dict
 
     @classmethod
@@ -84,7 +80,7 @@ class ReqModelCreditMetricId(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "modelIds": AtLeastOneUuid.from_dict(obj["modelIds"]) if obj.get("modelIds") is not None else None
+            "modelIds": obj.get("modelIds")
         })
         return _obj
 

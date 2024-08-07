@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing import Any, ClassVar, Dict, List
 from typing_extensions import Annotated
 from typing import Optional, Set
@@ -30,7 +30,7 @@ class ResRateLimitedComputationMetric(BaseModel):
     count: Annotated[int, Field(strict=True, ge=0)] = Field(description="Number of computations.")
     credits: Annotated[int, Field(strict=True, ge=0)] = Field(description="Number of finished 10-second chunks charged.")
     duration: Annotated[int, Field(strict=True, ge=0)] = Field(description="Total duration of computation time, in milliseconds.")
-    count_per_chunks: Dict[str, StrictStr] = Field(description="Count of computations per computation time expressed in started 10-second chunks.", alias="countPerChunks")
+    count_per_chunks: Dict[str, StrictInt] = Field(description="Count of computations per computation time expressed in started 10-second chunks.", alias="countPerChunks")
     __properties: ClassVar[List[str]] = ["count", "credits", "duration", "countPerChunks"]
 
     model_config = ConfigDict(

@@ -17,21 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List
-from typing_extensions import Annotated
+from shapediver.geometry_api_v2.client.models.res_analytics import ResAnalytics
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ResDefaultComputationMetric(BaseModel):
+class ResGetUserCreditMetrics(BaseModel):
     """
-    Computations information.
+    ResGetUserCreditMetrics
     """ # noqa: E501
-    count: Annotated[int, Field(strict=True, ge=0)] = Field(description="Number of computations.")
-    credits: Annotated[int, Field(strict=True, ge=0)] = Field(description="Number of finished 10-second chunks charged.")
-    duration: Annotated[int, Field(strict=True, ge=0)] = Field(description="Total duration of computation time, in milliseconds.")
-    count_per_chunks: Dict[str, StrictInt] = Field(description="Count of computations per computation time expressed in started 10-second chunks.", alias="countPerChunks")
-    __properties: ClassVar[List[str]] = ["count", "credits", "duration", "countPerChunks"]
+    analytics: ResAnalytics = Field(description="Statistics of the model for the given timespan.")
+    version: StrictStr = Field(description="Version of the Geometry Backend API.")
+    __properties: ClassVar[List[str]] = ["analytics", "version"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +49,7 @@ class ResDefaultComputationMetric(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ResDefaultComputationMetric from a JSON string"""
+        """Create an instance of ResGetUserCreditMetrics from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -72,11 +70,14 @@ class ResDefaultComputationMetric(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of analytics
+        if self.analytics:
+            _dict['analytics'] = self.analytics.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ResDefaultComputationMetric from a dict"""
+        """Create an instance of ResGetUserCreditMetrics from a dict"""
         if obj is None:
             return None
 
@@ -84,10 +85,8 @@ class ResDefaultComputationMetric(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "count": obj.get("count"),
-            "credits": obj.get("credits"),
-            "duration": obj.get("duration"),
-            "countPerChunks": obj.get("countPerChunks")
+            "analytics": ResAnalytics.from_dict(obj["analytics"]) if obj.get("analytics") is not None else None,
+            "version": obj.get("version")
         })
         return _obj
 

@@ -17,9 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List
-from shapediver.geometry_api_v2.client.models.at_least_one_uuid import AtLeastOneUuid
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,8 +26,8 @@ class ReqModelOrganizationCreditMetricId(BaseModel):
     """
     Model-Organization metrics
     """ # noqa: E501
-    model_ids: AtLeastOneUuid = Field(alias="modelIds")
-    org_ids: AtLeastOneUuid = Field(alias="orgIds")
+    model_ids: List[StrictStr] = Field(alias="modelIds")
+    org_ids: List[StrictStr] = Field(alias="orgIds")
     __properties: ClassVar[List[str]] = ["modelIds", "orgIds"]
 
     model_config = ConfigDict(
@@ -70,12 +69,6 @@ class ReqModelOrganizationCreditMetricId(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of model_ids
-        if self.model_ids:
-            _dict['modelIds'] = self.model_ids.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of org_ids
-        if self.org_ids:
-            _dict['orgIds'] = self.org_ids.to_dict()
         return _dict
 
     @classmethod
@@ -88,8 +81,8 @@ class ReqModelOrganizationCreditMetricId(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "modelIds": AtLeastOneUuid.from_dict(obj["modelIds"]) if obj.get("modelIds") is not None else None,
-            "orgIds": AtLeastOneUuid.from_dict(obj["orgIds"]) if obj.get("orgIds") is not None else None
+            "modelIds": obj.get("modelIds"),
+            "orgIds": obj.get("orgIds")
         })
         return _obj
 

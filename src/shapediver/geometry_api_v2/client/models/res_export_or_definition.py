@@ -29,10 +29,10 @@ class ResExportOrDefinition(BaseModel):
     """
     Either a full export or it's definition.
     """
-    # data type: ResExport
-    oneof_schema_1_validator: Optional[ResExport] = None
     # data type: ResExportDefinition
-    oneof_schema_2_validator: Optional[ResExportDefinition] = None
+    oneof_schema_1_validator: Optional[ResExportDefinition] = None
+    # data type: ResExport
+    oneof_schema_2_validator: Optional[ResExport] = None
     actual_instance: Optional[Union[ResExport, ResExportDefinition]] = None
     one_of_schemas: Set[str] = { "ResExport", "ResExportDefinition" }
 
@@ -57,14 +57,14 @@ class ResExportOrDefinition(BaseModel):
         instance = ResExportOrDefinition.model_construct()
         error_messages = []
         match = 0
-        # validate data type: ResExport
-        if not isinstance(v, ResExport):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `ResExport`")
-        else:
-            match += 1
         # validate data type: ResExportDefinition
         if not isinstance(v, ResExportDefinition):
             error_messages.append(f"Error! Input type `{type(v)}` is not `ResExportDefinition`")
+        else:
+            match += 1
+        # validate data type: ResExport
+        if not isinstance(v, ResExport):
+            error_messages.append(f"Error! Input type `{type(v)}` is not `ResExport`")
         else:
             match += 1
         if match > 1:
@@ -87,15 +87,15 @@ class ResExportOrDefinition(BaseModel):
         error_messages = []
         match = 0
 
-        # deserialize data into ResExport
-        try:
-            instance.actual_instance = ResExport.from_json(json_str)
-            match += 1
-        except (ValidationError, ValueError) as e:
-            error_messages.append(str(e))
         # deserialize data into ResExportDefinition
         try:
             instance.actual_instance = ResExportDefinition.from_json(json_str)
+            match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
+        # deserialize data into ResExport
+        try:
+            instance.actual_instance = ResExport.from_json(json_str)
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))

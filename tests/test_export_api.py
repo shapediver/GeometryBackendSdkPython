@@ -24,6 +24,7 @@ def test_exports(utils, host, jwt_model, model_id):
     assert res_session.exports and res_session.parameters
     assert len(res_session.exports.keys()) > 0
 
+    # Get first export.
     export = next(iter(res_session.exports.values())).actual_instance
     assert export
 

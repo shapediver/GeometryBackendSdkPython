@@ -20,7 +20,6 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
-from shapediver.geometry_api_v2.client.models.at_least_one_any_date_extended import AtLeastOneAnyDateExtended
 from shapediver.geometry_api_v2.client.models.req_any_credit_metric_id import ReqAnyCreditMetricId
 from typing import Optional, Set
 from typing_extensions import Self
@@ -30,7 +29,7 @@ class ReqCreditMetric(BaseModel):
     Parameters of a credit metrics request. When IDs or timestamps are requested, the resulting response-item represents an aggregation of the requested data.
     """ # noqa: E501
     id: ReqAnyCreditMetricId
-    timestamp: Optional[AtLeastOneAnyDateExtended] = Field(default=None, description="Multiple timestamps are aggregated and result in a single credit metrics object.")
+    timestamp: Optional[List[Annotated[str, Field(strict=True)]]] = Field(default=None, description="Either a single extended date or an array of extended dates. Multiple timestamps are aggregated and result in a single credit metrics object.")
     timestamp_from: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="Allows to define the beginning of a time range, instead of specifying individual timestamps.")
     timestamp_to: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="Allows to define the ending of a time range, instead of specifying individual timestamps.")
     __properties: ClassVar[List[str]] = ["id", "timestamp", "timestamp_from", "timestamp_to"]
@@ -97,9 +96,6 @@ class ReqCreditMetric(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of id
         if self.id:
             _dict['id'] = self.id.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of timestamp
-        if self.timestamp:
-            _dict['timestamp'] = self.timestamp.to_dict()
         return _dict
 
     @classmethod
@@ -113,7 +109,7 @@ class ReqCreditMetric(BaseModel):
 
         _obj = cls.model_validate({
             "id": ReqAnyCreditMetricId.from_dict(obj["id"]) if obj.get("id") is not None else None,
-            "timestamp": AtLeastOneAnyDateExtended.from_dict(obj["timestamp"]) if obj.get("timestamp") is not None else None,
+            "timestamp": obj.get("timestamp"),
             "timestamp_from": obj.get("timestamp_from"),
             "timestamp_to": obj.get("timestamp_to")
         })

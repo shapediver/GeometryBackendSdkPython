@@ -11,7 +11,6 @@ def test_textures(utils, host, jwt_model):
 
     # List all model textures.
     res_list = TextureApi(model_client).list_textures(session_id)
-    print(f"res_list: {res_list}")
     assert res_list.list.texture is not None
 
     # Close the session.

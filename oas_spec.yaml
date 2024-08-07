@@ -189,22 +189,6 @@ components:
         - type: array
           items: {}
         - type: object
-    AtLeastOneUuid:
-      description: Either a single UUID or an array of UUIDs.
-      oneOf:
-        - $ref: "#/components/schemas/Uuid"
-        - type: array
-          items:
-            $ref: "#/components/schemas/Uuid"
-          minItems: 1
-    AtLeastOneAnyDateExtended:
-      description: Either a single extended date or an array of extended dates.
-      oneOf:
-        - $ref: "#/components/schemas/AnyDateExtended"
-        - type: array
-          items:
-            $ref: "#/components/schemas/AnyDateExtended"
-          minItems: 1
 
     #-------------------------------------------------------------------------#
     #- Common data structures                                                -#
@@ -443,12 +427,17 @@ components:
             type: object
             properties:
               modelid:
-                $ref: "#/components/schemas/AtLeastOneUuid"
+                type: array
+                items:
+                  $ref: "#/components/schemas/Uuid"
               timestamp:
                 description: >-
+                  Either a single extended date or an array of extended dates.
+
                   Multiple timestamps are aggregated and result in a single statistic object.
-                allOf:
-                  - $ref: "#/components/schemas/AtLeastOneAnyDateExtended"
+                type: array
+                items:
+                  $ref: "#/components/schemas/AnyDateExtended"
               timestamp_from:
                 description: >-
                   Allows to define the beginning of a time range, instead of specifying individual
@@ -473,7 +462,9 @@ components:
           type: object
           properties:
             modelIds:
-              $ref: "#/components/schemas/AtLeastOneUuid"
+              type: array
+              items:
+                $ref: "#/components/schemas/Uuid"
           required:
             - modelIds
         - title: ReqUserCreditMetricId
@@ -481,7 +472,9 @@ components:
           type: object
           properties:
             userIds:
-              $ref: "#/components/schemas/AtLeastOneUuid"
+              type: array
+              items:
+                $ref: "#/components/schemas/Uuid"
           required:
             - userIds
         - title: ReqOrganizationCreditMetricId
@@ -489,7 +482,9 @@ components:
           type: object
           properties:
             orgIds:
-              $ref: "#/components/schemas/AtLeastOneUuid"
+              type: array
+              items:
+                $ref: "#/components/schemas/Uuid"
           required:
             - orgIds
         - title: ReqSystemCreditMetricId
@@ -505,9 +500,13 @@ components:
           type: object
           properties:
             modelIds:
-              $ref: "#/components/schemas/AtLeastOneUuid"
+              type: array
+              items:
+                $ref: "#/components/schemas/Uuid"
             userIds:
-              $ref: "#/components/schemas/AtLeastOneUuid"
+              type: array
+              items:
+                $ref: "#/components/schemas/Uuid"
           required:
             - modelIds
             - userIds
@@ -516,9 +515,13 @@ components:
           type: object
           properties:
             modelIds:
-              $ref: "#/components/schemas/AtLeastOneUuid"
+              type: array
+              items:
+                $ref: "#/components/schemas/Uuid"
             orgIds:
-              $ref: "#/components/schemas/AtLeastOneUuid"
+              type: array
+              items:
+                $ref: "#/components/schemas/Uuid"
           required:
             - modelIds
             - orgIds
@@ -541,9 +544,12 @@ components:
                 $ref: "#/components/schemas/ReqAnyCreditMetricId"
               timestamp:
                 description: >-
+                  Either a single extended date or an array of extended dates.
+
                   Multiple timestamps are aggregated and result in a single credit metrics object.
-                allOf:
-                  - $ref: "#/components/schemas/AtLeastOneAnyDateExtended"
+                type: array
+                items:
+                  $ref: "#/components/schemas/AnyDateExtended"
               timestamp_from:
                 description: >-
                   Allows to define the beginning of a time range, instead of specifying individual
@@ -999,6 +1005,34 @@ components:
       allOf:
         - $ref: "#/components/schemas/ResPartAnalytics"
         - $ref: "#/components/schemas/ResPartMessage"
+        - $ref: "#/components/schemas/ResPartVersion"
+      required:
+        - analytics
+        - version
+    ResGetUserCreditMetrics:
+      allOf:
+        - $ref: "#/components/schemas/ResPartAnalytics"
+        - $ref: "#/components/schemas/ResPartVersion"
+      required:
+        - analytics
+        - version
+    ResGetOrganizationCreditMetrics:
+      allOf:
+        - $ref: "#/components/schemas/ResPartAnalytics"
+        - $ref: "#/components/schemas/ResPartVersion"
+      required:
+        - analytics
+        - version
+    ResGetModelUserCreditMetrics:
+      allOf:
+        - $ref: "#/components/schemas/ResPartAnalytics"
+        - $ref: "#/components/schemas/ResPartVersion"
+      required:
+        - analytics
+        - version
+    ResGetModelOrganizationCreditMetrics:
+      allOf:
+        - $ref: "#/components/schemas/ResPartAnalytics"
         - $ref: "#/components/schemas/ResPartVersion"
       required:
         - analytics
@@ -2090,7 +2124,7 @@ components:
                 Count of computations per computation time expressed in started 10-second chunks.
               type: object
               additionalProperties:
-                type: string
+                type: integer
           required:
             - count
             - credits
@@ -2178,7 +2212,7 @@ components:
                 Count of computations per computation time expressed in started 10-second chunks.
               type: object
               additionalProperties:
-                type: string
+                type: integer
           required:
             - count
             - credits
@@ -2388,8 +2422,8 @@ components:
     ResExportOrDefinition:
       description: Either a full export or it's definition.
       oneOf:
-        - $ref: "#/components/schemas/ResExport"
         - $ref: "#/components/schemas/ResExportDefinition"
+        - $ref: "#/components/schemas/ResExport"
     ResList:
       description: ShapeDiver API response of a list-request.
       type: object
@@ -2820,10 +2854,12 @@ components:
         - S_VECTOR
         - BOOL
         - COLOR
+        - DRAWING
         - EVEN
         - FILE
         - FLOAT
         - INT
+        - INTERACTION
         - ODD
         - STRING
         - STRINGLIST
@@ -3580,8 +3616,8 @@ components:
     ResOutputOrDefinition:
       description: Either a full output or it's definition.
       oneOf:
-        - $ref: "#/components/schemas/ResOutput"
         - $ref: "#/components/schemas/ResOutputDefinition"
+        - $ref: "#/components/schemas/ResOutput"
     ResSettings:
       description: Definition of settings.
       type: object
@@ -4176,6 +4212,146 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResGetCreditMetrics"
+        default:
+          description: Unexpected error. See `message` for more details.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResError"
+      security:
+        - JwtAuth: []
+  "/api/v2/analytics/credit-metrics/timestamp/{timestamp}/user":
+    get:
+      operationId: GetUserCreditMetrics
+      tags:
+        - analytics
+      summary: Get credit metrics of all users active at timestamp.
+      description: |-
+        Subject-Restriction: __backend__.
+
+        Permissions: 
+        * `analytics.model.get.*` - __required__.
+      parameters:
+        - in: path
+          name: timestamp
+          schema:
+            type: string
+          required: true
+          description: Timestamp of activity in format YYYY, YYYYMM, YYYYMMDD, or YYYYMMDDHH.
+      responses:
+        200:
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResGetUserCreditMetrics"
+        default:
+          description: Unexpected error. See `message` for more details.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResError"
+      security:
+        - JwtAuth: []
+  "/api/v2/analytics/credit-metrics/timestamp/{timestamp}/org":
+    get:
+      operationId: GetOrganizationCreditMetrics
+      tags:
+        - analytics
+      summary: Get credit metrics of all organizations with users active at timestamp.
+      description: |-
+        Subject-Restriction: __backend__.
+
+        Permissions: 
+        * `analytics.model.get.*` - __required__.
+      parameters:
+        - in: path
+          name: timestamp
+          schema:
+            type: string
+          required: true
+          description: Timestamp of activity in format YYYY, YYYYMM, YYYYMMDD, or YYYYMMDDHH.
+      responses:
+        200:
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResGetOrganizationCreditMetrics"
+        default:
+          description: Unexpected error. See `message` for more details.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResError"
+      security:
+        - JwtAuth: []
+  "/api/v2/analytics/credit-metrics/timestamp/{timestamp}/user/{userId}":
+    get:
+      operationId: GetModelUserCreditMetrics
+      tags:
+        - analytics
+      summary: Get model credit metrics of the user at timestamp.
+      description: |-
+        Permissions: 
+        * `analytics.model.get.*` - __required__.
+      parameters:
+        - in: path
+          name: timestamp
+          schema:
+            type: string
+          required: true
+          description: Timestamp of activity in format YYYY, YYYYMM, YYYYMMDD, or YYYYMMDDHH.
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: ID of the user.
+      responses:
+        200:
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResGetModelUserCreditMetrics"
+        default:
+          description: Unexpected error. See `message` for more details.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResError"
+      security:
+        - JwtAuth: []
+  "/api/v2/analytics/credit-metrics/timestamp/{timestamp}/org/{orgId}":
+    get:
+      operationId: GetModelOrganizationCreditMetrics
+      tags:
+        - analytics
+      summary: Get model credit metrics of the organization at timestamp.
+      description: |-
+        Permissions: 
+        * `analytics.model.get.*` - __required__.
+      parameters:
+        - in: path
+          name: timestamp
+          schema:
+            type: string
+          required: true
+          description: Timestamp of activity in format YYYY, YYYYMM, YYYYMMDD, or YYYYMMDDHH.
+        - in: path
+          name: orgId
+          schema:
+            type: string
+          required: true
+          description: ID of the organization.
+      responses:
+        200:
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResGetModelOrganizationCreditMetrics"
         default:
           description: Unexpected error. See `message` for more details.
           content:
