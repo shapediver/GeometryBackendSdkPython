@@ -4,22 +4,6 @@ shapediver.geometry\_api\_v2.client.models package
 Submodules
 ----------
 
-shapediver.geometry\_api\_v2.client.models.at\_least\_one\_any\_date\_extended module
--------------------------------------------------------------------------------------
-
-.. automodule:: shapediver.geometry_api_v2.client.models.at_least_one_any_date_extended
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-shapediver.geometry\_api\_v2.client.models.at\_least\_one\_uuid module
-----------------------------------------------------------------------
-
-.. automodule:: shapediver.geometry_api_v2.client.models.at_least_one_uuid
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 shapediver.geometry\_api\_v2.client.models.commons\_computation\_status module
 ------------------------------------------------------------------------------
 
@@ -980,6 +964,14 @@ shapediver.geometry\_api\_v2.client.models.res\_get\_model\_config module
    :undoc-members:
    :show-inheritance:
 
+shapediver.geometry\_api\_v2.client.models.res\_get\_model\_organization\_credit\_metrics module
+------------------------------------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_get_model_organization_credit_metrics
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 shapediver.geometry\_api\_v2.client.models.res\_get\_model\_statistics module
 -----------------------------------------------------------------------------
 
@@ -988,10 +980,34 @@ shapediver.geometry\_api\_v2.client.models.res\_get\_model\_statistics module
    :undoc-members:
    :show-inheritance:
 
+shapediver.geometry\_api\_v2.client.models.res\_get\_model\_user\_credit\_metrics module
+----------------------------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_get_model_user_credit_metrics
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+shapediver.geometry\_api\_v2.client.models.res\_get\_organization\_credit\_metrics module
+-----------------------------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_get_organization_credit_metrics
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 shapediver.geometry\_api\_v2.client.models.res\_get\_session\_defaults module
 -----------------------------------------------------------------------------
 
 .. automodule:: shapediver.geometry_api_v2.client.models.res_get_session_defaults
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+shapediver.geometry\_api\_v2.client.models.res\_get\_user\_credit\_metrics module
+---------------------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_get_user_credit_metrics
    :members:
    :undoc-members:
    :show-inheritance:
