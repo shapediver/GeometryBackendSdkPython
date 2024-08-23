@@ -21,9 +21,11 @@ from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from shapediver.geometry_api_v2.client.models.res_action import ResAction
 from shapediver.geometry_api_v2.client.models.res_export_or_definition import ResExportOrDefinition
+from shapediver.geometry_api_v2.client.models.res_file import ResFile
 from shapediver.geometry_api_v2.client.models.res_model import ResModel
 from shapediver.geometry_api_v2.client.models.res_output_or_definition import ResOutputOrDefinition
 from shapediver.geometry_api_v2.client.models.res_parameter import ResParameter
+from shapediver.geometry_api_v2.client.models.res_settings import ResSettings
 from shapediver.geometry_api_v2.client.models.res_statistic import ResStatistic
 from shapediver.geometry_api_v2.client.models.res_template import ResTemplate
 from shapediver.geometry_api_v2.client.models.res_viewer import ResViewer
@@ -36,17 +38,19 @@ class ResCreateSessionByModel(BaseModel):
     """ # noqa: E501
     actions: List[ResAction] = Field(description="Actions the client may take.")
     exports: Optional[Dict[str, ResExportOrDefinition]] = Field(default=None, description="Exports of the model for the given parameter values. A directory of export-IDs and exports.")
+    file: ResFile = Field(description="Links regarding the model file.")
     message: Optional[StrictStr] = Field(default=None, description="Contains urgent information about the system.")
     model: ResModel = Field(description="The definitions of a ShapeDiver model.")
     outputs: Optional[Dict[str, ResOutputOrDefinition]] = Field(default=None, description="Outputs of the model for the given parameter values. A directory of output-IDs and outputs.")
     parameters: Optional[Dict[str, ResParameter]] = Field(default=None, description="Parameter definitions, not contained with every response. A directory of parameter-IDs and parameters.")
     session_id: StrictStr = Field(description="The ID of the created session.", alias="sessionId")
+    setting: ResSettings = Field(description="Various settings.")
     statistic: ResStatistic = Field(description="Statistics of a model.")
     templates: List[ResTemplate] = Field(description="Request templates for actions.")
     version: StrictStr = Field(description="Version of the Geometry Backend API.")
     viewer: ResViewer = Field(description="Viewer specific data.")
     viewer_settings_version: StrictStr = Field(description="The current version of the viewer settings.", alias="viewerSettingsVersion")
-    __properties: ClassVar[List[str]] = ["actions", "exports", "message", "model", "outputs", "parameters", "sessionId", "statistic", "templates", "version", "viewer", "viewerSettingsVersion"]
+    __properties: ClassVar[List[str]] = ["actions", "exports", "file", "message", "model", "outputs", "parameters", "sessionId", "setting", "statistic", "templates", "version", "viewer", "viewerSettingsVersion"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -101,6 +105,9 @@ class ResCreateSessionByModel(BaseModel):
                 if self.exports[_key]:
                     _field_dict[_key] = self.exports[_key].to_dict()
             _dict['exports'] = _field_dict
+        # override the default output from pydantic by calling `to_dict()` of file
+        if self.file:
+            _dict['file'] = self.file.to_dict()
         # override the default output from pydantic by calling `to_dict()` of model
         if self.model:
             _dict['model'] = self.model.to_dict()
@@ -118,6 +125,9 @@ class ResCreateSessionByModel(BaseModel):
                 if self.parameters[_key]:
                     _field_dict[_key] = self.parameters[_key].to_dict()
             _dict['parameters'] = _field_dict
+        # override the default output from pydantic by calling `to_dict()` of setting
+        if self.setting:
+            _dict['setting'] = self.setting.to_dict()
         # override the default output from pydantic by calling `to_dict()` of statistic
         if self.statistic:
             _dict['statistic'] = self.statistic.to_dict()
@@ -150,6 +160,7 @@ class ResCreateSessionByModel(BaseModel):
             )
             if obj.get("exports") is not None
             else None,
+            "file": ResFile.from_dict(obj["file"]) if obj.get("file") is not None else None,
             "message": obj.get("message"),
             "model": ResModel.from_dict(obj["model"]) if obj.get("model") is not None else None,
             "outputs": dict(
@@ -165,6 +176,7 @@ class ResCreateSessionByModel(BaseModel):
             if obj.get("parameters") is not None
             else None,
             "sessionId": obj.get("sessionId"),
+            "setting": ResSettings.from_dict(obj["setting"]) if obj.get("setting") is not None else None,
             "statistic": ResStatistic.from_dict(obj["statistic"]) if obj.get("statistic") is not None else None,
             "templates": [ResTemplate.from_dict(_item) for _item in obj["templates"]] if obj.get("templates") is not None else None,
             "version": obj.get("version"),
