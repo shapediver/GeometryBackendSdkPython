@@ -15,26 +15,26 @@
 from __future__ import annotations
 import json
 import pprint
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
-from typing import Any, List, Optional
-from shapediver.geometry_api_v2.client.models.commons_basic_parameter import CommonsBasicParameter
-from shapediver.geometry_api_v2.client.models.commons_stype_parameter import CommonsStypeParameter
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr, ValidationError, field_validator
+from typing import Any, List, Optional, Union
 from pydantic import StrictStr, Field
 from typing import Union, List, Set, Optional, Dict
 from typing_extensions import Literal, Self
 
-REQPARAMETERVALUE_ONE_OF_SCHEMAS = ["CommonsBasicParameter", "CommonsStypeParameter"]
+COMMONSBASICPARAMETER_ONE_OF_SCHEMAS = ["bool", "float", "str"]
 
-class ReqParameterValue(BaseModel):
+class CommonsBasicParameter(BaseModel):
     """
-    The value of a single model parameter.
+    Definition of a basic ShapeDiver parameter.
     """
-    # data type: CommonsBasicParameter
-    oneof_schema_1_validator: Optional[CommonsBasicParameter] = None
-    # data type: CommonsStypeParameter
-    oneof_schema_2_validator: Optional[CommonsStypeParameter] = None
-    actual_instance: Optional[Union[CommonsBasicParameter, CommonsStypeParameter]] = None
-    one_of_schemas: Set[str] = { "CommonsBasicParameter", "CommonsStypeParameter" }
+    # data type: str
+    oneof_schema_1_validator: Optional[StrictStr] = None
+    # data type: float
+    oneof_schema_2_validator: Optional[Union[StrictFloat, StrictInt]] = None
+    # data type: bool
+    oneof_schema_3_validator: Optional[StrictBool] = None
+    actual_instance: Optional[Union[bool, float, str]] = None
+    one_of_schemas: Set[str] = { "bool", "float", "str" }
 
     model_config = ConfigDict(
         validate_assignment=True,
@@ -54,25 +54,33 @@ class ReqParameterValue(BaseModel):
 
     @field_validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
-        instance = ReqParameterValue.model_construct()
+        instance = CommonsBasicParameter.model_construct()
         error_messages = []
         match = 0
-        # validate data type: CommonsBasicParameter
-        if not isinstance(v, CommonsBasicParameter):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `CommonsBasicParameter`")
-        else:
+        # validate data type: str
+        try:
+            instance.oneof_schema_1_validator = v
             match += 1
-        # validate data type: CommonsStypeParameter
-        if not isinstance(v, CommonsStypeParameter):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `CommonsStypeParameter`")
-        else:
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
+        # validate data type: float
+        try:
+            instance.oneof_schema_2_validator = v
             match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
+        # validate data type: bool
+        try:
+            instance.oneof_schema_3_validator = v
+            match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when setting `actual_instance` in ReqParameterValue with oneOf schemas: CommonsBasicParameter, CommonsStypeParameter. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when setting `actual_instance` in CommonsBasicParameter with oneOf schemas: bool, float, str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when setting `actual_instance` in ReqParameterValue with oneOf schemas: CommonsBasicParameter, CommonsStypeParameter. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting `actual_instance` in CommonsBasicParameter with oneOf schemas: bool, float, str. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -87,25 +95,40 @@ class ReqParameterValue(BaseModel):
         error_messages = []
         match = 0
 
-        # deserialize data into CommonsBasicParameter
+        # deserialize data into str
         try:
-            instance.actual_instance = CommonsBasicParameter.from_json(json_str)
+            # validation
+            instance.oneof_schema_1_validator = json.loads(json_str)
+            # assign value to actual_instance
+            instance.actual_instance = instance.oneof_schema_1_validator
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
-        # deserialize data into CommonsStypeParameter
+        # deserialize data into float
         try:
-            instance.actual_instance = CommonsStypeParameter.from_json(json_str)
+            # validation
+            instance.oneof_schema_2_validator = json.loads(json_str)
+            # assign value to actual_instance
+            instance.actual_instance = instance.oneof_schema_2_validator
+            match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
+        # deserialize data into bool
+        try:
+            # validation
+            instance.oneof_schema_3_validator = json.loads(json_str)
+            # assign value to actual_instance
+            instance.actual_instance = instance.oneof_schema_3_validator
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
 
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when deserializing the JSON string into ReqParameterValue with oneOf schemas: CommonsBasicParameter, CommonsStypeParameter. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when deserializing the JSON string into CommonsBasicParameter with oneOf schemas: bool, float, str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into ReqParameterValue with oneOf schemas: CommonsBasicParameter, CommonsStypeParameter. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when deserializing the JSON string into CommonsBasicParameter with oneOf schemas: bool, float, str. Details: " + ", ".join(error_messages))
         else:
             return instance
 
@@ -119,7 +142,7 @@ class ReqParameterValue(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Optional[Union[Dict[str, Any], CommonsBasicParameter, CommonsStypeParameter]]:
+    def to_dict(self) -> Optional[Union[Dict[str, Any], bool, float, str]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

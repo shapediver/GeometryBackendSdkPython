@@ -17,20 +17,31 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
-from shapediver.geometry_api_v2.client.models.res_asset_definition import ResAssetDefinition
+from typing_extensions import Annotated
+from shapediver.geometry_api_v2.client.models.res_parameter_value import ResParameterValue
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ResSdtfAsset(BaseModel):
+class ResModelState(BaseModel):
     """
-    sdTF assets.
+    Definition of a Model-State.
     """ # noqa: E501
-    file: Optional[Dict[str, ResAssetDefinition]] = Field(default=None, description="A directory of parameter-IDs and asset-definitions.")
-    sdtf: List[ResAssetDefinition]
-    model_state: Optional[ResAssetDefinition] = Field(default=None, description="The asset-definition of a Model-State image.", alias="modelState")
-    __properties: ClassVar[List[str]] = ["file", "sdtf", "modelState"]
+    parameters: Dict[str, ResParameterValue] = Field(description="A directory of parameter IDs and values.")
+    data: Optional[Dict[str, Any]] = Field(default=None, description="Optional untyped data that holds additional information.")
+    id: StrictStr = Field(description="ID of the Model-State.")
+    model_id: StrictStr = Field(description="ID of the ShapeDiver model.", alias="modelId")
+    createdate: Annotated[str, Field(strict=True)] = Field(description="Timestamp of creation of the Model-State.")
+    image_url: Optional[StrictStr] = Field(default=None, description="The URL of the Model-State image.", alias="imageUrl")
+    __properties: ClassVar[List[str]] = ["parameters", "data", "id", "modelId", "createdate", "imageUrl"]
+
+    @field_validator('createdate')
+    def createdate_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$", value):
+            raise ValueError(r"must validate the regular expression /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -50,7 +61,7 @@ class ResSdtfAsset(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ResSdtfAsset from a JSON string"""
+        """Create an instance of ResModelState from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -71,28 +82,18 @@ class ResSdtfAsset(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each value in file (dict)
+        # override the default output from pydantic by calling `to_dict()` of each value in parameters (dict)
         _field_dict = {}
-        if self.file:
-            for _key in self.file:
-                if self.file[_key]:
-                    _field_dict[_key] = self.file[_key].to_dict()
-            _dict['file'] = _field_dict
-        # override the default output from pydantic by calling `to_dict()` of each item in sdtf (list)
-        _items = []
-        if self.sdtf:
-            for _item in self.sdtf:
-                if _item:
-                    _items.append(_item.to_dict())
-            _dict['sdtf'] = _items
-        # override the default output from pydantic by calling `to_dict()` of model_state
-        if self.model_state:
-            _dict['modelState'] = self.model_state.to_dict()
+        if self.parameters:
+            for _key in self.parameters:
+                if self.parameters[_key]:
+                    _field_dict[_key] = self.parameters[_key].to_dict()
+            _dict['parameters'] = _field_dict
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ResSdtfAsset from a dict"""
+        """Create an instance of ResModelState from a dict"""
         if obj is None:
             return None
 
@@ -100,14 +101,17 @@ class ResSdtfAsset(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "file": dict(
-                (_k, ResAssetDefinition.from_dict(_v))
-                for _k, _v in obj["file"].items()
+            "parameters": dict(
+                (_k, ResParameterValue.from_dict(_v))
+                for _k, _v in obj["parameters"].items()
             )
-            if obj.get("file") is not None
+            if obj.get("parameters") is not None
             else None,
-            "sdtf": [ResAssetDefinition.from_dict(_item) for _item in obj["sdtf"]] if obj.get("sdtf") is not None else None,
-            "modelState": ResAssetDefinition.from_dict(obj["modelState"]) if obj.get("modelState") is not None else None
+            "data": obj.get("data"),
+            "id": obj.get("id"),
+            "modelId": obj.get("modelId"),
+            "createdate": obj.get("createdate"),
+            "imageUrl": obj.get("imageUrl")
         })
         return _obj
 

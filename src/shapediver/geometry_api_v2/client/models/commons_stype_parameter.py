@@ -19,17 +19,17 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from shapediver.geometry_api_v2.client.models.req_parameter_chunk import ReqParameterChunk
+from shapediver.geometry_api_v2.client.models.commmons_parameter_asset import CommmonsParameterAsset
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ReqParameterAsset(BaseModel):
+class CommonsStypeParameter(BaseModel):
     """
-    Reference to the s-type parameter asset to be used.
+    Definition of the value to use for s-type parameters.
     """ # noqa: E501
-    id: StrictStr = Field(description="String ID of the asset.")
-    chunk: Optional[ReqParameterChunk] = None
-    __properties: ClassVar[List[str]] = ["id", "chunk"]
+    value: Optional[StrictStr] = Field(default=None, description="Optional embedded value. If this is set the asset is ignored.")
+    asset: Optional[CommmonsParameterAsset] = None
+    __properties: ClassVar[List[str]] = ["value", "asset"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -49,7 +49,7 @@ class ReqParameterAsset(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ReqParameterAsset from a JSON string"""
+        """Create an instance of CommonsStypeParameter from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -70,14 +70,14 @@ class ReqParameterAsset(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of chunk
-        if self.chunk:
-            _dict['chunk'] = self.chunk.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of asset
+        if self.asset:
+            _dict['asset'] = self.asset.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ReqParameterAsset from a dict"""
+        """Create an instance of CommonsStypeParameter from a dict"""
         if obj is None:
             return None
 
@@ -85,8 +85,8 @@ class ReqParameterAsset(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "id": obj.get("id"),
-            "chunk": ReqParameterChunk.from_dict(obj["chunk"]) if obj.get("chunk") is not None else None
+            "value": obj.get("value"),
+            "asset": CommmonsParameterAsset.from_dict(obj["asset"]) if obj.get("asset") is not None else None
         })
         return _obj
 

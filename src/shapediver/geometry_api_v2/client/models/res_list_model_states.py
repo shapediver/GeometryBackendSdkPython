@@ -17,20 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
-from typing import Any, ClassVar, Dict, List, Optional
-from shapediver.geometry_api_v2.client.models.res_asset_definition import ResAssetDefinition
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, List
+from shapediver.geometry_api_v2.client.models.res_model_state_list import ResModelStateList
+from shapediver.geometry_api_v2.client.models.res_pagination import ResPagination
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ResSdtfAsset(BaseModel):
+class ResListModelStates(BaseModel):
     """
-    sdTF assets.
+    ResListModelStates
     """ # noqa: E501
-    file: Optional[Dict[str, ResAssetDefinition]] = Field(default=None, description="A directory of parameter-IDs and asset-definitions.")
-    sdtf: List[ResAssetDefinition]
-    model_state: Optional[ResAssetDefinition] = Field(default=None, description="The asset-definition of a Model-State image.", alias="modelState")
-    __properties: ClassVar[List[str]] = ["file", "sdtf", "modelState"]
+    pagination: ResPagination = Field(description="Pagination information.")
+    version: StrictStr = Field(description="Version of the Geometry Backend API.")
+    list: ResModelStateList
+    __properties: ClassVar[List[str]] = ["pagination", "version", "list"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -50,7 +51,7 @@ class ResSdtfAsset(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ResSdtfAsset from a JSON string"""
+        """Create an instance of ResListModelStates from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -71,28 +72,17 @@ class ResSdtfAsset(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each value in file (dict)
-        _field_dict = {}
-        if self.file:
-            for _key in self.file:
-                if self.file[_key]:
-                    _field_dict[_key] = self.file[_key].to_dict()
-            _dict['file'] = _field_dict
-        # override the default output from pydantic by calling `to_dict()` of each item in sdtf (list)
-        _items = []
-        if self.sdtf:
-            for _item in self.sdtf:
-                if _item:
-                    _items.append(_item.to_dict())
-            _dict['sdtf'] = _items
-        # override the default output from pydantic by calling `to_dict()` of model_state
-        if self.model_state:
-            _dict['modelState'] = self.model_state.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of pagination
+        if self.pagination:
+            _dict['pagination'] = self.pagination.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of list
+        if self.list:
+            _dict['list'] = self.list.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ResSdtfAsset from a dict"""
+        """Create an instance of ResListModelStates from a dict"""
         if obj is None:
             return None
 
@@ -100,14 +90,9 @@ class ResSdtfAsset(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "file": dict(
-                (_k, ResAssetDefinition.from_dict(_v))
-                for _k, _v in obj["file"].items()
-            )
-            if obj.get("file") is not None
-            else None,
-            "sdtf": [ResAssetDefinition.from_dict(_item) for _item in obj["sdtf"]] if obj.get("sdtf") is not None else None,
-            "modelState": ResAssetDefinition.from_dict(obj["modelState"]) if obj.get("modelState") is not None else None
+            "pagination": ResPagination.from_dict(obj["pagination"]) if obj.get("pagination") is not None else None,
+            "version": obj.get("version"),
+            "list": ResModelStateList.from_dict(obj["list"]) if obj.get("list") is not None else None
         })
         return _obj
 

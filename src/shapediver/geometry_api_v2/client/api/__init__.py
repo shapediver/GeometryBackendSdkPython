@@ -11,6 +11,7 @@ from shapediver.geometry_api_v2.client.api.file_api import FileApi
 from shapediver.geometry_api_v2.client.api.gltf_api import GltfApi
 from shapediver.geometry_api_v2.client.api.log_api import LogApi
 from shapediver.geometry_api_v2.client.api.model_api import ModelApi
+from shapediver.geometry_api_v2.client.api.model_state_api import ModelStateApi
 from shapediver.geometry_api_v2.client.api.output_api import OutputApi
 from shapediver.geometry_api_v2.client.api.script_api import ScriptApi
 from shapediver.geometry_api_v2.client.api.sdtf_api import SdtfApi

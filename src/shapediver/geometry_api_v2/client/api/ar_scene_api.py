@@ -41,7 +41,7 @@ class ArSceneApi:
     @validate_call
     def download_ar_scene_gltf(
         self,
-        scene_id: Annotated[StrictStr, Field(description="AR scene ID.")],
+        scene_id: Annotated[StrictStr, Field(description="ID of the AR scene or Model-State.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55,10 +55,10 @@ class ArSceneApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> bytearray:
-        """Downloads the glTF asset of an AR scene.
+        """Downloads the glTF asset of an AR scene or a Model-State that is linked to an AR scene.
 
 
-        :param scene_id: AR scene ID. (required)
+        :param scene_id: ID of the AR scene or Model-State. (required)
         :type scene_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -107,7 +107,7 @@ class ArSceneApi:
     @validate_call
     def download_ar_scene_gltf_with_http_info(
         self,
-        scene_id: Annotated[StrictStr, Field(description="AR scene ID.")],
+        scene_id: Annotated[StrictStr, Field(description="ID of the AR scene or Model-State.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -121,10 +121,10 @@ class ArSceneApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[bytearray]:
-        """Downloads the glTF asset of an AR scene.
+        """Downloads the glTF asset of an AR scene or a Model-State that is linked to an AR scene.
 
 
-        :param scene_id: AR scene ID. (required)
+        :param scene_id: ID of the AR scene or Model-State. (required)
         :type scene_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -173,7 +173,7 @@ class ArSceneApi:
     @validate_call
     def download_ar_scene_gltf_without_preload_content(
         self,
-        scene_id: Annotated[StrictStr, Field(description="AR scene ID.")],
+        scene_id: Annotated[StrictStr, Field(description="ID of the AR scene or Model-State.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -187,10 +187,10 @@ class ArSceneApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Downloads the glTF asset of an AR scene.
+        """Downloads the glTF asset of an AR scene or a Model-State that is linked to an AR scene.
 
 
-        :param scene_id: AR scene ID. (required)
+        :param scene_id: ID of the AR scene or Model-State. (required)
         :type scene_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -297,7 +297,7 @@ class ArSceneApi:
     @validate_call
     def download_ar_scene_usdz(
         self,
-        scene_id: Annotated[StrictStr, Field(description="AR scene ID.")],
+        scene_id: Annotated[StrictStr, Field(description="ID of the AR scene or Model-State.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -311,10 +311,10 @@ class ArSceneApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> bytearray:
-        """Downloads the USDZ asset of an AR scene.
+        """Downloads the USDZ asset of an AR scene or a Model-State that is linked to an AR scene.
 
 
-        :param scene_id: AR scene ID. (required)
+        :param scene_id: ID of the AR scene or Model-State. (required)
         :type scene_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -364,7 +364,7 @@ class ArSceneApi:
     @validate_call
     def download_ar_scene_usdz_with_http_info(
         self,
-        scene_id: Annotated[StrictStr, Field(description="AR scene ID.")],
+        scene_id: Annotated[StrictStr, Field(description="ID of the AR scene or Model-State.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -378,10 +378,10 @@ class ArSceneApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[bytearray]:
-        """Downloads the USDZ asset of an AR scene.
+        """Downloads the USDZ asset of an AR scene or a Model-State that is linked to an AR scene.
 
 
-        :param scene_id: AR scene ID. (required)
+        :param scene_id: ID of the AR scene or Model-State. (required)
         :type scene_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -431,7 +431,7 @@ class ArSceneApi:
     @validate_call
     def download_ar_scene_usdz_without_preload_content(
         self,
-        scene_id: Annotated[StrictStr, Field(description="AR scene ID.")],
+        scene_id: Annotated[StrictStr, Field(description="ID of the AR scene or Model-State.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -445,10 +445,10 @@ class ArSceneApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Downloads the USDZ asset of an AR scene.
+        """Downloads the USDZ asset of an AR scene or a Model-State that is linked to an AR scene.
 
 
-        :param scene_id: AR scene ID. (required)
+        :param scene_id: ID of the AR scene or Model-State. (required)
         :type scene_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -556,7 +556,7 @@ class ArSceneApi:
     @validate_call
     def get_ar_scene_metadata(
         self,
-        scene_id: Annotated[StrictStr, Field(description="AR scene ID.")],
+        scene_id: Annotated[StrictStr, Field(description="ID of the AR scene or Model-State.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -570,10 +570,10 @@ class ArSceneApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Checks the existence of an AR scene.
+        """Verifies whether an AR scene exists or if a Model-State is linked to an AR scene.
 
 
-        :param scene_id: AR scene ID. (required)
+        :param scene_id: ID of the AR scene or Model-State. (required)
         :type scene_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -623,7 +623,7 @@ class ArSceneApi:
     @validate_call
     def get_ar_scene_metadata_with_http_info(
         self,
-        scene_id: Annotated[StrictStr, Field(description="AR scene ID.")],
+        scene_id: Annotated[StrictStr, Field(description="ID of the AR scene or Model-State.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -637,10 +637,10 @@ class ArSceneApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Checks the existence of an AR scene.
+        """Verifies whether an AR scene exists or if a Model-State is linked to an AR scene.
 
 
-        :param scene_id: AR scene ID. (required)
+        :param scene_id: ID of the AR scene or Model-State. (required)
         :type scene_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -690,7 +690,7 @@ class ArSceneApi:
     @validate_call
     def get_ar_scene_metadata_without_preload_content(
         self,
-        scene_id: Annotated[StrictStr, Field(description="AR scene ID.")],
+        scene_id: Annotated[StrictStr, Field(description="ID of the AR scene or Model-State.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -704,10 +704,10 @@ class ArSceneApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Checks the existence of an AR scene.
+        """Verifies whether an AR scene exists or if a Model-State is linked to an AR scene.
 
 
-        :param scene_id: AR scene ID. (required)
+        :param scene_id: ID of the AR scene or Model-State. (required)
         :type scene_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

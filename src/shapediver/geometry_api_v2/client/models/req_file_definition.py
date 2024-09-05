@@ -27,7 +27,7 @@ class ReqFileDefinition(BaseModel):
     """
     Data for a single file parameter.
     """ # noqa: E501
-    filename: Optional[StrictStr] = Field(default=None, description="Name of the file to be uploaded.  When this property is set, then the actual file upload request must contain a Content-Disposition HTTP header with the value \"attachment; filename=`{filename}`\". Otherwise, a signature mismatch will occur.")
+    filename: Optional[StrictStr] = Field(default=None, description="Name of the file to be uploaded.  If this property is set, the file upload request must include a `Content-Disposition` HTTP header with the format `attachment; filename=\"{filename}\"`. Failure to do so will result in a signature mismatch. For convenience, the response will provide a preformatted HTTP header value that can be used directly.")
     format: StrictStr = Field(description="Content-Type (MIME type) of the file to be uploaded.")
     size: Annotated[int, Field(strict=True, ge=0)] = Field(description="Size of the file to be uploaded, in bytes.")
     __properties: ClassVar[List[str]] = ["filename", "format", "size"]

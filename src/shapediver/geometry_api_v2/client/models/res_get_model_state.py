@@ -18,18 +18,18 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
-from shapediver.geometry_api_v2.client.models.req_parameter_asset import ReqParameterAsset
+from typing import Any, ClassVar, Dict, List
+from shapediver.geometry_api_v2.client.models.res_model_state import ResModelState
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ReqStypeParameter(BaseModel):
+class ResGetModelState(BaseModel):
     """
-    Definition of the value to use for s-type parameters.
+    ResGetModelState
     """ # noqa: E501
-    value: Optional[StrictStr] = Field(default=None, description="Optional embedded value. If this is set the asset is ignored.")
-    asset: Optional[ReqParameterAsset] = None
-    __properties: ClassVar[List[str]] = ["value", "asset"]
+    model_state: ResModelState = Field(description="Model-State information.", alias="modelState")
+    version: StrictStr = Field(description="Version of the Geometry Backend API.")
+    __properties: ClassVar[List[str]] = ["modelState", "version"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -49,7 +49,7 @@ class ReqStypeParameter(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ReqStypeParameter from a JSON string"""
+        """Create an instance of ResGetModelState from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -70,14 +70,14 @@ class ReqStypeParameter(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of asset
-        if self.asset:
-            _dict['asset'] = self.asset.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of model_state
+        if self.model_state:
+            _dict['modelState'] = self.model_state.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ReqStypeParameter from a dict"""
+        """Create an instance of ResGetModelState from a dict"""
         if obj is None:
             return None
 
@@ -85,8 +85,8 @@ class ReqStypeParameter(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "value": obj.get("value"),
-            "asset": ReqParameterAsset.from_dict(obj["asset"]) if obj.get("asset") is not None else None
+            "modelState": ResModelState.from_dict(obj["modelState"]) if obj.get("modelState") is not None else None,
+            "version": obj.get("version")
         })
         return _obj
 

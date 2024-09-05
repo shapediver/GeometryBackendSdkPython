@@ -23,6 +23,7 @@ from shapediver.geometry_api_v2.client.models.res_action import ResAction
 from shapediver.geometry_api_v2.client.models.res_export_or_definition import ResExportOrDefinition
 from shapediver.geometry_api_v2.client.models.res_file import ResFile
 from shapediver.geometry_api_v2.client.models.res_model import ResModel
+from shapediver.geometry_api_v2.client.models.res_model_state_data import ResModelStateData
 from shapediver.geometry_api_v2.client.models.res_output_or_definition import ResOutputOrDefinition
 from shapediver.geometry_api_v2.client.models.res_parameter import ResParameter
 from shapediver.geometry_api_v2.client.models.res_settings import ResSettings
@@ -41,6 +42,7 @@ class ResCreateSessionByModel(BaseModel):
     file: ResFile = Field(description="Links regarding the model file.")
     message: Optional[StrictStr] = Field(default=None, description="Contains urgent information about the system.")
     model: ResModel = Field(description="The definitions of a ShapeDiver model.")
+    model_state: Optional[ResModelStateData] = Field(default=None, description="Model-State information.", alias="modelState")
     outputs: Optional[Dict[str, ResOutputOrDefinition]] = Field(default=None, description="Outputs of the model for the given parameter values. A directory of output-IDs and outputs.")
     parameters: Optional[Dict[str, ResParameter]] = Field(default=None, description="Parameter definitions, not contained with every response. A directory of parameter-IDs and parameters.")
     session_id: StrictStr = Field(description="The ID of the created session.", alias="sessionId")
@@ -50,7 +52,8 @@ class ResCreateSessionByModel(BaseModel):
     version: StrictStr = Field(description="Version of the Geometry Backend API.")
     viewer: ResViewer = Field(description="Viewer specific data.")
     viewer_settings_version: StrictStr = Field(description="The current version of the viewer settings.", alias="viewerSettingsVersion")
-    __properties: ClassVar[List[str]] = ["actions", "exports", "file", "message", "model", "outputs", "parameters", "sessionId", "setting", "statistic", "templates", "version", "viewer", "viewerSettingsVersion"]
+    warnings: Optional[List[StrictStr]] = Field(default=None, description="An array of warnings encountered during request processing. These warnings indicate potential issues or non-critical conditions but did not prevent the request from being successfully processed.")
+    __properties: ClassVar[List[str]] = ["actions", "exports", "file", "message", "model", "modelState", "outputs", "parameters", "sessionId", "setting", "statistic", "templates", "version", "viewer", "viewerSettingsVersion", "warnings"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -111,6 +114,9 @@ class ResCreateSessionByModel(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of model
         if self.model:
             _dict['model'] = self.model.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of model_state
+        if self.model_state:
+            _dict['modelState'] = self.model_state.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each value in outputs (dict)
         _field_dict = {}
         if self.outputs:
@@ -163,6 +169,7 @@ class ResCreateSessionByModel(BaseModel):
             "file": ResFile.from_dict(obj["file"]) if obj.get("file") is not None else None,
             "message": obj.get("message"),
             "model": ResModel.from_dict(obj["model"]) if obj.get("model") is not None else None,
+            "modelState": ResModelStateData.from_dict(obj["modelState"]) if obj.get("modelState") is not None else None,
             "outputs": dict(
                 (_k, ResOutputOrDefinition.from_dict(_v))
                 for _k, _v in obj["outputs"].items()
@@ -181,7 +188,8 @@ class ResCreateSessionByModel(BaseModel):
             "templates": [ResTemplate.from_dict(_item) for _item in obj["templates"]] if obj.get("templates") is not None else None,
             "version": obj.get("version"),
             "viewer": ResViewer.from_dict(obj["viewer"]) if obj.get("viewer") is not None else None,
-            "viewerSettingsVersion": obj.get("viewerSettingsVersion")
+            "viewerSettingsVersion": obj.get("viewerSettingsVersion"),
+            "warnings": obj.get("warnings")
         })
         return _obj
 

@@ -25,7 +25,7 @@ from typing_extensions import Self
 
 class ResAssetDefinition(BaseModel):
     """
-    Result part for the response to an upload request for file/sdTF parameters.
+    Result part for the response to an asset upload request.
     """ # noqa: E501
     id: StrictStr = Field(description="ID of the file to be uploaded.")
     href: StrictStr = Field(description="href the file should be uploaded to (typically a time-limited pre-signed url).")

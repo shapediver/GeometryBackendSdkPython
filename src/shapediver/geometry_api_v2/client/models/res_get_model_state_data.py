@@ -18,17 +18,18 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Dict, List
+from shapediver.geometry_api_v2.client.models.res_model_state_data import ResModelStateData
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ReqParameterChunk(BaseModel):
+class ResGetModelStateData(BaseModel):
     """
-    Describing which chunk of the s-type asset to use. When not specified, the chunk of an asset gets chosen based on parameter ID and name.
+    ResGetModelStateData
     """ # noqa: E501
-    id: Optional[StrictStr] = Field(default=None, description="ID of the chunk to be used.")
-    name: Optional[StrictStr] = Field(default=None, description="Name attribute of the chunk to be used.")
-    __properties: ClassVar[List[str]] = ["id", "name"]
+    model_state: ResModelStateData = Field(description="Model-State information.", alias="modelState")
+    version: StrictStr = Field(description="Version of the Geometry Backend API.")
+    __properties: ClassVar[List[str]] = ["modelState", "version"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +49,7 @@ class ReqParameterChunk(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ReqParameterChunk from a JSON string"""
+        """Create an instance of ResGetModelStateData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,11 +70,14 @@ class ReqParameterChunk(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of model_state
+        if self.model_state:
+            _dict['modelState'] = self.model_state.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ReqParameterChunk from a dict"""
+        """Create an instance of ResGetModelStateData from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +85,8 @@ class ReqParameterChunk(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "id": obj.get("id"),
-            "name": obj.get("name")
+            "modelState": ResModelStateData.from_dict(obj["modelState"]) if obj.get("modelState") is not None else None,
+            "version": obj.get("version")
         })
         return _obj
 

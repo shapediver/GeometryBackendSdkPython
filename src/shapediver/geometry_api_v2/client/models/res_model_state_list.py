@@ -29,16 +29,16 @@ from shapediver.geometry_api_v2.client.models.res_texture import ResTexture
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ResExportList(BaseModel):
+class ResModelStateList(BaseModel):
     """
-    ResExportList
+    ResModelStateList
     """ # noqa: E501
     file: Optional[List[ResFileInfo]] = Field(default=None, description="A directory of file objects.")
     sdtf: Optional[List[ResSdtfInfo]] = Field(default=None, description="A directory of sdTF objects.")
     model: Optional[List[ResModel]] = Field(default=None, description="A directory of ShapeDiver models.")
-    model_state: Optional[List[ResModelStateInfo]] = Field(default=None, description="A directory of Model-States.", alias="modelState")
+    model_state: List[ResModelStateInfo] = Field(description="A directory of Model-States.", alias="modelState")
     output: Optional[List[ResOutput]] = Field(default=None, description="A directory of output versions.")
-    export: List[ResExport] = Field(description="A directory of export versions.")
+    export: Optional[List[ResExport]] = Field(default=None, description="A directory of export versions.")
     texture: Optional[List[ResTexture]] = Field(default=None, description="A directory of model textures.")
     __properties: ClassVar[List[str]] = ["file", "sdtf", "model", "modelState", "output", "export", "texture"]
 
@@ -60,7 +60,7 @@ class ResExportList(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ResExportList from a JSON string"""
+        """Create an instance of ResModelStateList from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -134,7 +134,7 @@ class ResExportList(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ResExportList from a dict"""
+        """Create an instance of ResModelStateList from a dict"""
         if obj is None:
             return None
 

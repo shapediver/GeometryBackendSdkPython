@@ -29,7 +29,8 @@ class ResAsset(BaseModel):
     """ # noqa: E501
     file: Optional[Dict[str, ResAssetDefinition]] = Field(default=None, description="A directory of parameter-IDs and asset-definitions.")
     sdtf: Optional[List[ResAssetDefinition]] = None
-    __properties: ClassVar[List[str]] = ["file", "sdtf"]
+    model_state: Optional[ResAssetDefinition] = Field(default=None, description="The asset-definition of a Model-State image.", alias="modelState")
+    __properties: ClassVar[List[str]] = ["file", "sdtf", "modelState"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,6 +85,9 @@ class ResAsset(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict['sdtf'] = _items
+        # override the default output from pydantic by calling `to_dict()` of model_state
+        if self.model_state:
+            _dict['modelState'] = self.model_state.to_dict()
         return _dict
 
     @classmethod
@@ -102,7 +106,8 @@ class ResAsset(BaseModel):
             )
             if obj.get("file") is not None
             else None,
-            "sdtf": [ResAssetDefinition.from_dict(_item) for _item in obj["sdtf"]] if obj.get("sdtf") is not None else None
+            "sdtf": [ResAssetDefinition.from_dict(_item) for _item in obj["sdtf"]] if obj.get("sdtf") is not None else None,
+            "modelState": ResAssetDefinition.from_dict(obj["modelState"]) if obj.get("modelState") is not None else None
         })
         return _obj
 

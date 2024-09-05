@@ -23,13 +23,13 @@ from shapediver.geometry_api_v2.client.models.res_asset_definition import ResAss
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ResSdtfAsset(BaseModel):
+class ResModelStateAsset(BaseModel):
     """
-    sdTF assets.
+    Model-State image asset.
     """ # noqa: E501
     file: Optional[Dict[str, ResAssetDefinition]] = Field(default=None, description="A directory of parameter-IDs and asset-definitions.")
-    sdtf: List[ResAssetDefinition]
-    model_state: Optional[ResAssetDefinition] = Field(default=None, description="The asset-definition of a Model-State image.", alias="modelState")
+    sdtf: Optional[List[ResAssetDefinition]] = None
+    model_state: ResAssetDefinition = Field(description="The asset-definition of a Model-State image.", alias="modelState")
     __properties: ClassVar[List[str]] = ["file", "sdtf", "modelState"]
 
     model_config = ConfigDict(
@@ -50,7 +50,7 @@ class ResSdtfAsset(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ResSdtfAsset from a JSON string"""
+        """Create an instance of ResModelStateAsset from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -92,7 +92,7 @@ class ResSdtfAsset(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ResSdtfAsset from a dict"""
+        """Create an instance of ResModelStateAsset from a dict"""
         if obj is None:
             return None
 
