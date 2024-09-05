@@ -74,21 +74,21 @@ def testOrganizationCreditMetrics(host, jwt_backend):
     assert len(res_credits.analytics.credit_metrics) > 0
 
 
-def testModelUserCreditMetrics(host, jwt_model):
-    model_client = SdClient(Configuration(host, access_token=jwt_model))
+def testModelUserCreditMetrics(host, jwt_backend):
+    backend_client = SdClient(Configuration(host, access_token=jwt_backend))
 
     user_id = "92a8410b-6496-4b86-8c3f-1014d59f7fa3"
-    res_credits = AnalyticsApi(model_client).get_model_user_credit_metrics(
+    res_credits = AnalyticsApi(backend_client).get_model_user_credit_metrics(
         "202407", user_id
     )
     assert len(res_credits.analytics.credit_metrics) > 0
 
 
-def testModelOrganizationCreditMetrics(host, jwt_model):
-    model_client = SdClient(Configuration(host, access_token=jwt_model))
+def testModelOrganizationCreditMetrics(host, jwt_backend):
+    backend_client = SdClient(Configuration(host, access_token=jwt_backend))
 
     org_id = "a785380e-183d-11ef-926a-f3f7d2b9f407"
-    res_credits = AnalyticsApi(model_client).get_model_organization_credit_metrics(
+    res_credits = AnalyticsApi(backend_client).get_model_organization_credit_metrics(
         "202407", org_id
     )
     assert len(res_credits.analytics.credit_metrics) > 0
