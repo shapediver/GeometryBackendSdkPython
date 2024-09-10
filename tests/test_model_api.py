@@ -1,4 +1,7 @@
+from pytest import raises
+
 from shapediver.geometry_api_v2.client import (
+    ApiException,
     Configuration,
     ModelApi,
     QueryComputationStatisticsStatus,
@@ -95,3 +98,21 @@ def test_parameters(utils, host, jwt_model, model_id):
         additional_properties={id: {"tooltip": tooltip} for id in res_model.parameters}
     )
     ModelApi(model_client).update_parameter_definitions(model_id, req_param)
+
+
+def test_soft_delete_and_restore(host, jwt_model, jwt_backend, model_id):
+    backend_client = SdClient(Configuration(host, access_token=jwt_backend))
+    model_client = SdClient(Configuration(host, access_token=jwt_model))
+
+    # Soft-delete a model.
+    ModelApi(backend_client).delete_model(model_id)
+
+    # Fetch the model should not work anymore.
+    with raises(ApiException):
+        ModelApi(model_client).get_model(model_id)
+
+    # Restore the model.
+    ModelApi(backend_client).restore_model(model_id)
+
+    # Fetching the model should work again.
+    ModelApi(model_client).get_model(model_id)
