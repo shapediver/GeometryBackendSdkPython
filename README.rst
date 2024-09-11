@@ -81,8 +81,7 @@ Usage - Ticket only
 ===================
 ::
 
-    from shapediver.geometry_api_v2.client import Configuration, SessionApi
-    from shapediver.geometry_api_v2.sd_client import SdClient
+    from shapediver.geometry_api_v2 import SdClient, Configuration, SessionApi
 
     def init_session():
         # Please see above on how to obtain a ticket
@@ -104,8 +103,7 @@ with them, which provides a strong authorisation mechanism.
 In this case you will need to use the `ShapeDiver Platform API
 <https://app.shapediver.com/api/documentation>`_ to obtain a JWT token for your model on demand.::
 
-    from shapediver.geometry_api_v2.client import Configuration, SessionApi
-    from shapediver.geometry_api_v2.sd_client import SdClient
+    from shapediver.geometry_api_v2 import SdClient, Configuration, SessionApi
 
     def init_session():
         # Please see above on how to obtain a ticket and a JWT

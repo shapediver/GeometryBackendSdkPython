@@ -1,7 +1,10 @@
 from importlib.metadata import PackageNotFoundError, version  # pragma: no cover
 
 # import custom classes into sdk package
-from shapediver.geometry_api_v2.sd_client import SdClient
+from .client import *  # noqa: 403
+from .client.rest import *  # noqa: 403
+from .sd_client import *  # noqa: 403
+from .sd_utils import *  # noqa: 403
 
 try:
     # Change here if project is renamed and does not equal the package name

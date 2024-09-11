@@ -1,6 +1,6 @@
 from pytest import raises
 
-from shapediver.geometry_api_v2.client import (
+from shapediver.geometry_api_v2 import (
     ApiException,
     Configuration,
     ModelApi,
@@ -10,8 +10,8 @@ from shapediver.geometry_api_v2.client import (
     ReqCustomization,
     ReqModel,
     ReqParameterDefinitions,
+    SdClient,
 )
-from shapediver.geometry_api_v2.sd_client import SdClient
 
 
 def test_model_config(host, jwt_model, model_id):

@@ -1,4 +1,4 @@
-from shapediver.geometry_api_v2.client import (
+from shapediver.geometry_api_v2 import (
     AnalyticsApi,
     Configuration,
     ReqAnyCreditMetricId,
@@ -7,9 +7,9 @@ from shapediver.geometry_api_v2.client import (
     ReqModelCreditMetricId,
     ReqModelStatistic,
     ReqModelStatistics,
+    SdClient,
     SessionApi,
 )
-from shapediver.geometry_api_v2.sd_client import SdClient
 
 
 def test_model_session_statistics(utils, host, jwt_model, model_id):

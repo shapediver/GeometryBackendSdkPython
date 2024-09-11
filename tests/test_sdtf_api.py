@@ -1,10 +1,11 @@
-from shapediver.geometry_api_v2 import SdClient, sd_utils
-from shapediver.geometry_api_v2.client import (
+from shapediver.geometry_api_v2 import (
     Configuration,
     ReqSdtfDefinition,
     ReqSdtfType,
+    SdClient,
     SdtfApi,
     SessionApi,
+    sd_utils,
 )
 
 

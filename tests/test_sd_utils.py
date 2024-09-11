@@ -1,8 +1,7 @@
 from unittest import TestCase
 from unittest.mock import patch
 
-from shapediver.geometry_api_v2 import SdClient, sd_utils
-from shapediver.geometry_api_v2.client import (
+from shapediver.geometry_api_v2 import (
     ApiException,
     ReqCache,
     ReqCustomization,
@@ -19,6 +18,8 @@ from shapediver.geometry_api_v2.client import (
     ResOutput,
     ResOutputDefinition,
     ResOutputOrDefinition,
+    SdClient,
+    sd_utils,
 )
 
 

@@ -1,15 +1,15 @@
 from datetime import timedelta
 
-from shapediver.geometry_api_v2.client import (
+from shapediver.geometry_api_v2 import (
     Configuration,
     ModelStateApi,
     ReqCustomization,
     ReqModelState,
     ReqTicket,
     ReqTicketType,
+    SdClient,
     SessionApi,
 )
-from shapediver.geometry_api_v2.sd_client import SdClient
 
 
 def test_init_session_via_ticket(utils, host, jwt_backend, model_id):

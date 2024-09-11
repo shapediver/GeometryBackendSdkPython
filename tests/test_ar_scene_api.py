@@ -1,4 +1,4 @@
-from shapediver.geometry_api_v2.client import (
+from shapediver.geometry_api_v2 import (
     ArSceneApi,
     Configuration,
     GltfApi,
@@ -6,9 +6,9 @@ from shapediver.geometry_api_v2.client import (
     QueryGltfConversion,
     ReqCustomization,
     ReqModelState,
+    SdClient,
     SessionApi,
 )
-from shapediver.geometry_api_v2.sd_client import SdClient
 
 
 def test_metadata_and_downloads(utils, host):

@@ -1,5 +1,4 @@
-from shapediver.geometry_api_v2.client import Configuration, SessionApi, TextureApi
-from shapediver.geometry_api_v2.sd_client import SdClient
+from shapediver.geometry_api_v2 import Configuration, SdClient, SessionApi, TextureApi
 
 
 def test_textures(utils, host, jwt_model):

@@ -3,13 +3,13 @@ from typing import Optional, Union
 
 import pytest
 
-from shapediver.geometry_api_v2.client import (
+from shapediver.geometry_api_v2 import (
     Configuration,
     ReqTicket,
     ReqTicketType,
+    SdClient,
     SessionApi,
 )
-from shapediver.geometry_api_v2.sd_client import SdClient
 
 _host = "https://sddev2.eu-central-1.shapediver.com"
 _jwt_backend = ""

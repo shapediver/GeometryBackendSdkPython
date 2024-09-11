@@ -1,5 +1,4 @@
-from shapediver.geometry_api_v2 import SdClient, sd_utils
-from shapediver.geometry_api_v2.client import (
+from shapediver.geometry_api_v2 import (
     Configuration,
     ExportApi,
     ReqCache,
@@ -9,7 +8,9 @@ from shapediver.geometry_api_v2.client import (
     ReqExportDefinitions,
     ReqExportOrCache,
     ResExport,
+    SdClient,
     SessionApi,
+    sd_utils,
 )
 
 

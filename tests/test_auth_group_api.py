@@ -1,11 +1,11 @@
 from uuid import uuid4
 
-from shapediver.geometry_api_v2.client import (
+from shapediver.geometry_api_v2 import (
     AuthGroupApi,
     Configuration,
     ReqAuthorizationGroup,
+    SdClient,
 )
-from shapediver.geometry_api_v2.sd_client import SdClient
 
 
 def test_create(host, jwt_backend, model_id):

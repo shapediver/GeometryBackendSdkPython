@@ -4,7 +4,7 @@ import unicodedata
 import urllib.parse
 from typing import Any, Mapping, Optional, Union
 
-from shapediver.geometry_api_v2.client import (
+from shapediver.geometry_api_v2 import (
     ApiException,
     Configuration,
     ExportApi,
@@ -21,9 +21,9 @@ from shapediver.geometry_api_v2.client import (
     ResGetCachedExports,
     ResGetCachedOutputs,
     ResOutput,
+    SdClient,
     rest,
 )
-from shapediver.geometry_api_v2.sd_client import SdClient
 
 
 def upload(
