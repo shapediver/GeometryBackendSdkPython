@@ -16,7 +16,7 @@ class SdClient(ApiClient):
         retries.
     """
 
-    _sdk_version = "1.4.0"  # WARNING: This value is updated automatically!
+    _sdk_version = "1.4.1"  # WARNING: This value is updated automatically!
 
     def __init__(
         self,
