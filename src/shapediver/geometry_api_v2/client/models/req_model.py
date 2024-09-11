@@ -30,6 +30,7 @@ class ReqModel(BaseModel):
     Body of a template request.
     """ # noqa: E501
     accessdomains: Optional[List[StrictStr]] = Field(default=None, description="List of domains (origins) this model is limited to (is ignored in case `pub` is true).")
+    allowed_libraries: Optional[List[StrictStr]] = Field(default=None, description="List of allowed Grasshopper libraries.")
     auth_groups: Optional[List[StrictStr]] = Field(default=None, description="List of allowed auth-groups.")
     backendaccess: Optional[StrictBool] = Field(default=None, description="Should backend access to the model be allowed.")
     filename: Optional[StrictStr] = Field(default=None, description="Original name of the model's grasshopper file.")
@@ -57,7 +58,7 @@ class ReqModel(BaseModel):
     use_cdn: Optional[StrictBool] = Field(default=None, description="Allows the usage of the CDN for fast content distribution.")
     user_id: Optional[StrictStr] = Field(default=None, description="Optional user ID.")
     webhook_url: Optional[StrictStr] = Field(default=None, description="The webhook-url for updating the platform backend about model status changes.")
-    __properties: ClassVar[List[str]] = ["accessdomains", "auth_groups", "backendaccess", "filename", "ftype", "initial_warmup", "id2", "max_comp_time", "max_export_size", "max_idle_minutes", "max_model_size", "max_output_size", "webhook_token", "max_wait_time", "name", "num_loaded_max", "num_loaded_min", "num_preloaded_min", "org_id", "prev_id", "pub", "require_iframe", "require_token", "session_rate_limit", "trust", "use_cdn", "user_id", "webhook_url"]
+    __properties: ClassVar[List[str]] = ["accessdomains", "allowed_libraries", "auth_groups", "backendaccess", "filename", "ftype", "initial_warmup", "id2", "max_comp_time", "max_export_size", "max_idle_minutes", "max_model_size", "max_output_size", "webhook_token", "max_wait_time", "name", "num_loaded_max", "num_loaded_min", "num_preloaded_min", "org_id", "prev_id", "pub", "require_iframe", "require_token", "session_rate_limit", "trust", "use_cdn", "user_id", "webhook_url"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -111,6 +112,7 @@ class ReqModel(BaseModel):
 
         _obj = cls.model_validate({
             "accessdomains": obj.get("accessdomains"),
+            "allowed_libraries": obj.get("allowed_libraries"),
             "auth_groups": obj.get("auth_groups"),
             "backendaccess": obj.get("backendaccess"),
             "filename": obj.get("filename"),

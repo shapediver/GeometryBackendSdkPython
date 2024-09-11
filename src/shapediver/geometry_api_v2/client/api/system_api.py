@@ -370,7 +370,7 @@ class SystemApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ResDeleteModel",
+            '202': "ResDeleteModel",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -437,7 +437,7 @@ class SystemApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ResDeleteModel",
+            '202': "ResDeleteModel",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -504,7 +504,7 @@ class SystemApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ResDeleteModel",
+            '202': "ResDeleteModel",
         }
         response_data = self.api_client.call_api(
             *_param,

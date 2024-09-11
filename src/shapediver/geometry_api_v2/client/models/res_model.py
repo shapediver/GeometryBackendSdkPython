@@ -28,6 +28,7 @@ class ResModel(BaseModel):
     """
     Definition of a ShapeDiver model.
     """ # noqa: E501
+    allowed_libraries: Optional[List[StrictStr]] = Field(default=None, description="List of allowed Grasshopper libraries.")
     backlinkurl: Optional[StrictStr] = Field(default=None, description="Link to view the model on the ShapeDiver Platform.")
     checkurl: Optional[StrictStr] = Field(default=None, description="Link to continue the checking process of the model on the ShapeDiver Platform.")
     createdate: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="Timestamp of creation of the model.")
@@ -42,7 +43,7 @@ class ResModel(BaseModel):
     user_id: Optional[StrictStr] = Field(default=None, description="ShapeDiver User ID of the model owner.")
     webhook_url: Optional[StrictStr] = Field(default=None, description="The webhook-url for updating the platform backend about model status changes.")
     webhook_token: Optional[StrictStr] = Field(default=None, description="The webhook-token for authentication used by the webhook-url.")
-    __properties: ClassVar[List[str]] = ["backlinkurl", "checkurl", "createdate", "documentid", "filename", "id", "id2", "msg", "name", "org_id", "stat", "user_id", "webhook_url", "webhook_token"]
+    __properties: ClassVar[List[str]] = ["allowed_libraries", "backlinkurl", "checkurl", "createdate", "documentid", "filename", "id", "id2", "msg", "name", "org_id", "stat", "user_id", "webhook_url", "webhook_token"]
 
     @field_validator('createdate')
     def createdate_validate_regular_expression(cls, value):
@@ -105,6 +106,7 @@ class ResModel(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "allowed_libraries": obj.get("allowed_libraries"),
             "backlinkurl": obj.get("backlinkurl"),
             "checkurl": obj.get("checkurl"),
             "createdate": obj.get("createdate"),
