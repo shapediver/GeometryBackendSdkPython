@@ -17,8 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Union
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -34,9 +34,9 @@ class ResInstalledWorkerPlugin(BaseModel):
     description: StrictStr = Field(description="General description of the Grasshopper plugin.")
     assembly_version: StrictStr = Field(description="Assembly version of the Grasshopper plugin DLL.  See the [documentation](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.assemblyname.version?view=net-8.0) for more information.", alias="assemblyVersion")
     assembly_full_name: StrictStr = Field(description="Full assembly name of the Grasshopper plugin DLL.  See the [documentation](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.assembly.fullname?view=net-8.0) for more information.", alias="assemblyFullName")
-    is_core_library: StrictStr = Field(description="Gets whether this library is a Grasshopper core library. Core libraries are installed along with Grasshopper and thus should always be available anywhere.", alias="isCoreLibrary")
-    license: StrictStr = Field(description="The license type of the plugin.  See the [documentation](https://developer.rhino3d.com/api/grasshopper/html/T_Grasshopper_Kernel_GH_LibraryLicense.htm) for more information.")
-    loading_mechanism: StrictStr = Field(description="The mechanism used to load the plugin.  See the [documentation](https://developer.rhino3d.com/api/grasshopper/html/T_Grasshopper_Kernel_GH_LoadingMechanism.htm) for more information.", alias="loadingMechanism")
+    is_core_library: StrictBool = Field(description="Gets whether this library is a Grasshopper core library. Core libraries are installed along with Grasshopper and thus should always be available anywhere.", alias="isCoreLibrary")
+    license: Union[StrictFloat, StrictInt] = Field(description="The license type of the plugin.  See the [documentation](https://developer.rhino3d.com/api/grasshopper/html/T_Grasshopper_Kernel_GH_LibraryLicense.htm) for more information.")
+    loading_mechanism: Union[StrictFloat, StrictInt] = Field(description="The mechanism used to load the plugin.  See the [documentation](https://developer.rhino3d.com/api/grasshopper/html/T_Grasshopper_Kernel_GH_LoadingMechanism.htm) for more information.", alias="loadingMechanism")
     location: StrictStr = Field(description="Installation path of the Grasshopper plugin.")
     __properties: ClassVar[List[str]] = ["id", "name", "version", "authorName", "authorContact", "description", "assemblyVersion", "assemblyFullName", "isCoreLibrary", "license", "loadingMechanism", "location"]
 

@@ -82,7 +82,12 @@ from shapediver.geometry_api_v2.client.models.res_asset import ResAsset
 from shapediver.geometry_api_v2.client.models.res_asset_definition import ResAssetDefinition
 from shapediver.geometry_api_v2.client.models.res_asset_upload_headers import ResAssetUploadHeaders
 from shapediver.geometry_api_v2.client.models.res_authorization_settings import ResAuthorizationSettings
+from shapediver.geometry_api_v2.client.models.res_base import ResBase
+from shapediver.geometry_api_v2.client.models.res_base_asset import ResBaseAsset
 from shapediver.geometry_api_v2.client.models.res_base_credit_metric import ResBaseCreditMetric
+from shapediver.geometry_api_v2.client.models.res_base_list import ResBaseList
+from shapediver.geometry_api_v2.client.models.res_base_model_state import ResBaseModelState
+from shapediver.geometry_api_v2.client.models.res_base_system import ResBaseSystem
 from shapediver.geometry_api_v2.client.models.res_cleanup_exports import ResCleanupExports
 from shapediver.geometry_api_v2.client.models.res_cleanup_outputs import ResCleanupOutputs
 from shapediver.geometry_api_v2.client.models.res_cleanup_textures import ResCleanupTextures
@@ -177,6 +182,7 @@ from shapediver.geometry_api_v2.client.models.res_model_state_asset import ResMo
 from shapediver.geometry_api_v2.client.models.res_model_state_data import ResModelStateData
 from shapediver.geometry_api_v2.client.models.res_model_state_info import ResModelStateInfo
 from shapediver.geometry_api_v2.client.models.res_model_state_list import ResModelStateList
+from shapediver.geometry_api_v2.client.models.res_model_state_or_data import ResModelStateOrData
 from shapediver.geometry_api_v2.client.models.res_model_statistic import ResModelStatistic
 from shapediver.geometry_api_v2.client.models.res_model_status import ResModelStatus
 from shapediver.geometry_api_v2.client.models.res_model_user_credit_metric import ResModelUserCreditMetric

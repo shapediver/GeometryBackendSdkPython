@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,7 +27,7 @@ class ResTemplate(BaseModel):
     Provides templates for actions.
     """ # noqa: E501
     name: StrictStr = Field(description="Name of the template, e.g. 'customize-request'.")
-    title: Optional[StrictStr] = Field(default=None, description="Title of the template, e.g. 'Template for model customization request'.")
+    title: StrictStr = Field(description="Title of the template, e.g. 'Template for model customization request'.")
     data: Dict[str, Any] = Field(description="Template for the request body.")
     __properties: ClassVar[List[str]] = ["name", "title", "data"]
 

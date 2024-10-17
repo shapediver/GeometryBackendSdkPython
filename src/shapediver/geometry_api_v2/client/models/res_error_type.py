@@ -38,6 +38,7 @@ class ResErrorType(str, Enum):
     SDERRORUNAUTHORIZED = 'SdErrorUnauthorized'
     SDILLEGALARGUMENTERROR = 'SdIllegalArgumentError'
     SDJWTVALIDATIONERROR = 'SdJwtValidationError'
+    SDMETHODNOTALLOWEDERROR = 'SdMethodNotAllowedError'
     SDMODELVALIDATIONERROR = 'SdModelValidationError'
     SDNOTACCEPTABLE = 'SdNotAcceptable'
     SDNOTFOUNDERROR = 'SdNotFoundError'

@@ -18,17 +18,17 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List
-from shapediver.geometry_api_v2.client.models.req_model_statistic import ReqModelStatistic
+from typing import Any, ClassVar, Dict, List, Optional
+from shapediver.geometry_api_v2.client.models.res_list import ResList
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ReqModelStatistics(BaseModel):
+class ResBaseList(BaseModel):
     """
-    Body of a model statistics request. Every request-item results in exactly one response-item, whereby the order of response-items corresponds to the order of the request-items.
+    ResBaseList
     """ # noqa: E501
-    parameters: List[ReqModelStatistic]
-    __properties: ClassVar[List[str]] = ["parameters"]
+    list: Optional[ResList] = None
+    __properties: ClassVar[List[str]] = ["list"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +48,7 @@ class ReqModelStatistics(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ReqModelStatistics from a JSON string"""
+        """Create an instance of ResBaseList from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,18 +69,14 @@ class ReqModelStatistics(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in parameters (list)
-        _items = []
-        if self.parameters:
-            for _item in self.parameters:
-                if _item:
-                    _items.append(_item.to_dict())
-            _dict['parameters'] = _items
+        # override the default output from pydantic by calling `to_dict()` of list
+        if self.list:
+            _dict['list'] = self.list.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ReqModelStatistics from a dict"""
+        """Create an instance of ResBaseList from a dict"""
         if obj is None:
             return None
 
@@ -88,7 +84,7 @@ class ReqModelStatistics(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "parameters": [ReqModelStatistic.from_dict(_item) for _item in obj["parameters"]] if obj.get("parameters") is not None else None
+            "list": ResList.from_dict(obj["list"]) if obj.get("list") is not None else None
         })
         return _obj
 

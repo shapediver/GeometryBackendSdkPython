@@ -33,13 +33,14 @@ class ResAllowedWorkerPlugin(BaseModel):
     max_version: StrictStr = Field(description="Maximum supported version of the plugin.", alias="maxVersion")
     author_name: Optional[StrictStr] = Field(default=None, description="Name of the plugin author.", alias="authorName")
     description: Optional[StrictStr] = Field(default=None, description="Link to a website related to the plugin.")
+    href: Optional[StrictStr] = Field(default=None, description="Link to a website related to the plugin.")
     allow_fallback_to_assembly_version: StrictBool = Field(description="When `true` then `GH_AssemblyInfo.AssemblyVersion` may be used instead of `GH_AssemblyInfo.Version` for version checking.  Defaults to `false`.", alias="allowFallbackToAssemblyVersion")
     check_major_minor_version_only: StrictBool = Field(description="When `true` then only the major and minor version numbers recorded in Grasshopper models will be checked.  Defaults to `false`.", alias="checkMajorMinorVersionOnly")
     check_if_installed: StrictBool = Field(description="When `false` then the installation check of the plugin will be skipped.  Defaults to `true`.", alias="checkIfInstalled")
-    previous_ids: StrictStr = Field(description="List of previous plugin IDs supported by this plugin version. This is used for the obscure case of the plugin developer changing the plugin ID.", alias="previousIds")
+    previous_ids: List[StrictStr] = Field(description="List of previous plugin IDs supported by this plugin version. This is used for the obscure case of the plugin developer changing the plugin ID.", alias="previousIds")
     allowed_components: List[ResWorkerPluginComponent] = Field(description="List of plugin components that are explicitly allowed. When this property is set, only the listed components are allowed, overruling the list in `disallowedComponents`.", alias="allowedComponents")
     disallowed_components: List[ResWorkerPluginComponent] = Field(description="List of plugin components which may not be used. This list might be overruled by `allowedComponents`.", alias="disallowedComponents")
-    __properties: ClassVar[List[str]] = ["id", "name", "minVersion", "maxVersion", "authorName", "description", "allowFallbackToAssemblyVersion", "checkMajorMinorVersionOnly", "checkIfInstalled", "previousIds", "allowedComponents", "disallowedComponents"]
+    __properties: ClassVar[List[str]] = ["id", "name", "minVersion", "maxVersion", "authorName", "description", "href", "allowFallbackToAssemblyVersion", "checkMajorMinorVersionOnly", "checkIfInstalled", "previousIds", "allowedComponents", "disallowedComponents"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -112,6 +113,7 @@ class ResAllowedWorkerPlugin(BaseModel):
             "maxVersion": obj.get("maxVersion"),
             "authorName": obj.get("authorName"),
             "description": obj.get("description"),
+            "href": obj.get("href"),
             "allowFallbackToAssemblyVersion": obj.get("allowFallbackToAssemblyVersion"),
             "checkMajorMinorVersionOnly": obj.get("checkMajorMinorVersionOnly"),
             "checkIfInstalled": obj.get("checkIfInstalled"),

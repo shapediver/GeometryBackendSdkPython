@@ -42,7 +42,7 @@ class ReqModel(BaseModel):
     max_idle_minutes: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="Maximum amount of minutes a loaded model may be unused before it gets unloaded.  Note: Models may get unloaded earlier than that.")
     max_model_size: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="Maximum number of bytes allowed for the model's Grasshopper file size.")
     max_output_size: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="Maximum number of bytes allowed for an output of a model for a specific set of parameter values.")
-    webhook_token: Optional[StrictBool] = Field(default=None, description="Allows to control whether the model's Grasshopper file can contain scripts.")
+    max_texture_size: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="Allows to configure the maximum number of bytes allowed for a single texture.")
     max_wait_time: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="Maximum time a computation request may stay waiting before a further worker goes ahead regardless of whether it already has the model loaded, and regardless of `num_loaded_max`. This allows to configure a soft or a hard upper boundary for the number of loaded models.")
     name: Optional[StrictStr] = Field(default=None, description="Name of the model.")
     num_loaded_max: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="Maximum number of workers that should have the model loaded at the same time.")
@@ -58,7 +58,9 @@ class ReqModel(BaseModel):
     use_cdn: Optional[StrictBool] = Field(default=None, description="Allows the usage of the CDN for fast content distribution.")
     user_id: Optional[StrictStr] = Field(default=None, description="Optional user ID.")
     webhook_url: Optional[StrictStr] = Field(default=None, description="The webhook-url for updating the platform backend about model status changes.")
-    __properties: ClassVar[List[str]] = ["accessdomains", "allowed_libraries", "auth_groups", "backendaccess", "filename", "ftype", "initial_warmup", "id2", "max_comp_time", "max_export_size", "max_idle_minutes", "max_model_size", "max_output_size", "webhook_token", "max_wait_time", "name", "num_loaded_max", "num_loaded_min", "num_preloaded_min", "org_id", "prev_id", "pub", "require_iframe", "require_token", "session_rate_limit", "trust", "use_cdn", "user_id", "webhook_url"]
+    webhook_token: Optional[StrictStr] = Field(default=None, description="The webhook-token for authentication used by the webhook-url.")
+    deny_scripts: Optional[StrictBool] = Field(default=None, description="Allows to control whether the model's Grasshopper file can contain scripts.")
+    __properties: ClassVar[List[str]] = ["accessdomains", "allowed_libraries", "auth_groups", "backendaccess", "filename", "ftype", "initial_warmup", "id2", "max_comp_time", "max_export_size", "max_idle_minutes", "max_model_size", "max_output_size", "max_texture_size", "max_wait_time", "name", "num_loaded_max", "num_loaded_min", "num_preloaded_min", "org_id", "prev_id", "pub", "require_iframe", "require_token", "session_rate_limit", "trust", "use_cdn", "user_id", "webhook_url", "webhook_token", "deny_scripts"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -124,7 +126,7 @@ class ReqModel(BaseModel):
             "max_idle_minutes": obj.get("max_idle_minutes"),
             "max_model_size": obj.get("max_model_size"),
             "max_output_size": obj.get("max_output_size"),
-            "webhook_token": obj.get("webhook_token"),
+            "max_texture_size": obj.get("max_texture_size"),
             "max_wait_time": obj.get("max_wait_time"),
             "name": obj.get("name"),
             "num_loaded_max": obj.get("num_loaded_max"),
@@ -139,7 +141,9 @@ class ReqModel(BaseModel):
             "trust": obj.get("trust"),
             "use_cdn": obj.get("use_cdn"),
             "user_id": obj.get("user_id"),
-            "webhook_url": obj.get("webhook_url")
+            "webhook_url": obj.get("webhook_url"),
+            "webhook_token": obj.get("webhook_token"),
+            "deny_scripts": obj.get("deny_scripts")
         })
         return _obj
 

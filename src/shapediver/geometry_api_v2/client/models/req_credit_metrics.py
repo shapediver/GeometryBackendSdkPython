@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Dict, List
 from shapediver.geometry_api_v2.client.models.req_credit_metric import ReqCreditMetric
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,7 +27,7 @@ class ReqCreditMetrics(BaseModel):
     """
     Body of a credit metrics request. Every request-item results in exactly one response-item, whereby the order of response-items corresponds to the order of the request-items.
     """ # noqa: E501
-    parameters: Optional[List[ReqCreditMetric]] = None
+    parameters: List[ReqCreditMetric]
     __properties: ClassVar[List[str]] = ["parameters"]
 
     model_config = ConfigDict(
