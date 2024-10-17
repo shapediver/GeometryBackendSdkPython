@@ -548,10 +548,50 @@ shapediver.geometry\_api\_v2.client.models.res\_authorization\_settings module
    :undoc-members:
    :show-inheritance:
 
+shapediver.geometry\_api\_v2.client.models.res\_base module
+-----------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+shapediver.geometry\_api\_v2.client.models.res\_base\_asset module
+------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_base_asset
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 shapediver.geometry\_api\_v2.client.models.res\_base\_credit\_metric module
 ---------------------------------------------------------------------------
 
 .. automodule:: shapediver.geometry_api_v2.client.models.res_base_credit_metric
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+shapediver.geometry\_api\_v2.client.models.res\_base\_list module
+-----------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_base_list
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+shapediver.geometry\_api\_v2.client.models.res\_base\_model\_state module
+-------------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_base_model_state
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+shapediver.geometry\_api\_v2.client.models.res\_base\_system module
+-------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_base_system
    :members:
    :undoc-members:
    :show-inheritance:
@@ -1304,6 +1344,14 @@ shapediver.geometry\_api\_v2.client.models.res\_model\_state\_list module
 -------------------------------------------------------------------------
 
 .. automodule:: shapediver.geometry_api_v2.client.models.res_model_state_list
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+shapediver.geometry\_api\_v2.client.models.res\_model\_state\_or\_data module
+-----------------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_model_state_or_data
    :members:
    :undoc-members:
    :show-inheritance:
