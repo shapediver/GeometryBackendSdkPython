@@ -60,21 +60,21 @@ def test_credit_metrics(utils, host, jwt_model, model_id):
     SessionApi(model_client).close_session(session_id)
 
 
-def testUserCreditMetrics(host, jwt_backend):
+def test_user_credit_metrics(host, jwt_backend):
     backend_client = SdClient(Configuration(host, access_token=jwt_backend))
 
     res_credits = AnalyticsApi(backend_client).get_user_credit_metrics("202407")
     assert len(res_credits.analytics.credit_metrics) > 0
 
 
-def testOrganizationCreditMetrics(host, jwt_backend):
+def test_organization_credit_metrics(host, jwt_backend):
     backend_client = SdClient(Configuration(host, access_token=jwt_backend))
 
     res_credits = AnalyticsApi(backend_client).get_organization_credit_metrics("202407")
     assert len(res_credits.analytics.credit_metrics) > 0
 
 
-def testModelUserCreditMetrics(host, jwt_backend):
+def test_model_user_credit_metrics(host, jwt_backend):
     backend_client = SdClient(Configuration(host, access_token=jwt_backend))
 
     user_id = "92a8410b-6496-4b86-8c3f-1014d59f7fa3"
@@ -84,7 +84,7 @@ def testModelUserCreditMetrics(host, jwt_backend):
     assert len(res_credits.analytics.credit_metrics) > 0
 
 
-def testModelOrganizationCreditMetrics(host, jwt_backend):
+def test_model_organization_credit_metrics(host, jwt_backend):
     backend_client = SdClient(Configuration(host, access_token=jwt_backend))
 
     org_id = "a785380e-183d-11ef-926a-f3f7d2b9f407"

@@ -24,14 +24,14 @@ def test_basic_model_state(utils, host, jwt_backend):
     session_id = res_session.session_id
 
     # The value of the first string parameter will be overwritten by the Model-State.
-    str_param = [
+    str_params = [
         param
         for param in res_session.parameters.values()
         if param.type == ResParameterType.STRING
     ]
-    assert len(str_param) > 0
+    assert len(str_params) > 0
 
-    custom_param_id = str_param[0].id
+    custom_param_id = str_params[0].id
     custom_param_value = utils.now()
     custom_data = {"foo": "bar"}
 
@@ -64,13 +64,13 @@ def test_basic_model_state(utils, host, jwt_backend):
     assert res_model_state_info.model_state.image_url is None
 
     # Fetch only parameters and data of the Model-State.
-    res_model_state_info = ModelStateApi(client).get_model_state_data(model_state_id)
-    parameter = res_model_state_info.model_state.parameters[
+    res_model_state_data = ModelStateApi(client).get_model_state_data(model_state_id)
+    parameter = res_model_state_data.model_state.parameters[
         custom_param_id
     ].actual_instance
     assert isinstance(parameter, CommonsBasicParameter)
     assert parameter.actual_instance == custom_param_value
-    assert res_model_state_info.model_state.data == custom_data
+    assert res_model_state_data.model_state.data == custom_data
 
     # Check if the Model-State has an image.
     try:

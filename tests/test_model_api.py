@@ -19,7 +19,7 @@ def test_model_config(host, jwt_model, model_id):
 
     # Fetch the model configuration.
     res_config = ModelApi(model_client).get_model_config(model_id)
-    assert len(res_config.viewer.config) > 0
+    assert len(res_config.viewer.config.keys()) > 0
 
     # Update the model configuration. However, for the sake of simplicity, we will re-use the
     # already existing configuration object.
