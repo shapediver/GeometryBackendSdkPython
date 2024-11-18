@@ -36,6 +36,14 @@ shapediver.geometry\_api\_v2.client.models.commons\_group module
    :undoc-members:
    :show-inheritance:
 
+shapediver.geometry\_api\_v2.client.models.commons\_model\_blocking\_reasons module
+-----------------------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.commons_model_blocking_reasons
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 shapediver.geometry\_api\_v2.client.models.commons\_model\_status module
 ------------------------------------------------------------------------
 
@@ -144,6 +152,14 @@ shapediver.geometry\_api\_v2.client.models.req\_authorization\_group module
 ---------------------------------------------------------------------------
 
 .. automodule:: shapediver.geometry_api_v2.client.models.req_authorization_group
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+shapediver.geometry\_api\_v2.client.models.req\_basic\_parameter module
+-----------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.req_basic_parameter
    :members:
    :undoc-members:
    :show-inheritance:
@@ -292,6 +308,14 @@ shapediver.geometry\_api\_v2.client.models.req\_model module
    :undoc-members:
    :show-inheritance:
 
+shapediver.geometry\_api\_v2.client.models.req\_model\_blocking\_reasons module
+-------------------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.req_model_blocking_reasons
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 shapediver.geometry\_api\_v2.client.models.req\_model\_credit\_metric\_id module
 --------------------------------------------------------------------------------
 
@@ -432,6 +456,14 @@ shapediver.geometry\_api\_v2.client.models.req\_sdtf\_type module
 -----------------------------------------------------------------
 
 .. automodule:: shapediver.geometry_api_v2.client.models.req_sdtf_type
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+shapediver.geometry\_api\_v2.client.models.req\_stype\_parameter module
+-----------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.req_stype_parameter
    :members:
    :undoc-members:
    :show-inheritance:
@@ -592,6 +624,14 @@ shapediver.geometry\_api\_v2.client.models.res\_base\_system module
 -------------------------------------------------------------------
 
 .. automodule:: shapediver.geometry_api_v2.client.models.res_base_system
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+shapediver.geometry\_api\_v2.client.models.res\_basic\_parameter module
+-----------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_basic_parameter
    :members:
    :undoc-members:
    :show-inheritance:
@@ -1244,6 +1284,14 @@ shapediver.geometry\_api\_v2.client.models.res\_model module
    :undoc-members:
    :show-inheritance:
 
+shapediver.geometry\_api\_v2.client.models.res\_model\_blocking\_reasons module
+-------------------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_model_blocking_reasons
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 shapediver.geometry\_api\_v2.client.models.res\_model\_cleanup\_process module
 ------------------------------------------------------------------------------
 
@@ -1808,6 +1856,14 @@ shapediver.geometry\_api\_v2.client.models.res\_structure\_type module
 ----------------------------------------------------------------------
 
 .. automodule:: shapediver.geometry_api_v2.client.models.res_structure_type
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+shapediver.geometry\_api\_v2.client.models.res\_stype\_parameter module
+-----------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_stype_parameter
    :members:
    :undoc-members:
    :show-inheritance:
