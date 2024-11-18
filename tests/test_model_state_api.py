@@ -1,10 +1,10 @@
 from shapediver.geometry_api_v2 import (
-    CommonsBasicParameter,
     Configuration,
     ModelStateApi,
     ReqCustomization,
     ReqFileDefinition,
     ReqModelState,
+    ResBasicParameter,
     ResParameterType,
     SdClient,
     SessionApi,
@@ -58,7 +58,7 @@ def test_basic_model_state(utils, host, jwt_backend):
     parameter = res_model_state_info.model_state.parameters[
         custom_param_id
     ].actual_instance
-    assert isinstance(parameter, CommonsBasicParameter)
+    assert isinstance(parameter, ResBasicParameter)
     assert parameter.actual_instance == custom_param_value
     assert res_model_state_info.model_state.data == custom_data
     assert res_model_state_info.model_state.image_url is None
@@ -68,7 +68,7 @@ def test_basic_model_state(utils, host, jwt_backend):
     parameter = res_model_state_data.model_state.parameters[
         custom_param_id
     ].actual_instance
-    assert isinstance(parameter, CommonsBasicParameter)
+    assert isinstance(parameter, ResBasicParameter)
     assert parameter.actual_instance == custom_param_value
     assert res_model_state_data.model_state.data == custom_data
 
