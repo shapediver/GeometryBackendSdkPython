@@ -63,9 +63,19 @@ release version:
     test -z "$(git diff --shortstat)"
 
     # Update sdk version number.
-    sed -i \
-      's/_sdk_version = ".*"/_sdk_version = "{{version}}"/' \
-      "./src/shapediver/geometry_api_v2/sd_client.py"
+    case $(uname -s) in \
+    Linux) \
+        sed -i \
+          's/_sdk_version = ".*"/_sdk_version = "{{version}}"/' \
+          "./src/shapediver/geometry_api_v2/sd_client.py" \
+        ;; \
+    Darwin) \
+        sed -i '' \
+          's/_sdk_version = ".*"/_sdk_version = "{{version}}"/' \
+          "./src/shapediver/geometry_api_v2/sd_client.py" \
+        ;; \
+    *) exit 1 ;; \
+    esac
 
     # Build package and docs.
     rm -rf './dist'
@@ -146,13 +156,26 @@ _update-deps:
     src="{{target_dir}}/requirements.txt"
     dist="requirements.txt"
 
-    # Delete old dependencies.
     start=$(grep -Fn 'AUTO-GENERATED CODE: START' "${dist}" | cut -f1 -d:)
     end=$(grep -Fn 'AUTO-GENERATED CODE: END' "${dist}" | cut -f1 -d:)
-    sed -i "$(($start + 1)),$(($end - 1))d" "${dist}"
+
+    # Delete old dependencies.
+    case $(uname -s) in
+    Linux) sed -i "$(($start + 1)),$(($end - 1))d" "${dist}" ;;
+    Darwin) sed -i '' "$(($start + 1)),$(($end - 1))d" "${dist}" ;;
+    *) exit 1 ;;
+    esac
 
     # Insert new dependencies.
     deps="$(cat "${src}")"
     while IFS= read -r line; do
-        sed -i "/AUTO-GENERATED CODE: END/i \ ${line}" "${dist}"
+        case $(uname -s) in
+        Linux) sed -i "/AUTO-GENERATED CODE: END/i \ ${line}" "${dist}" ;;
+        Darwin)
+            sed -i '' "/AUTO-GENERATED CODE: END/i\\
+            ${line}
+            " "${dist}"
+            ;;
+        *) exit 1 ;;
+        esac
     done <<< "${deps}"
