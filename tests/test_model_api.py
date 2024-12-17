@@ -9,8 +9,10 @@ from shapediver.geometry_api_v2 import (
     ReqConfigure,
     ReqCustomization,
     ReqModel,
+    ReqModelBlockingReasons,
     ReqParameterDefinitions,
     SdClient,
+    SessionApi,
 )
 
 
@@ -98,6 +100,41 @@ def test_parameters(utils, host, jwt_model, model_id):
         additional_properties={id: {"tooltip": tooltip} for id in res_model.parameters}
     )
     ModelApi(model_client).update_parameter_definitions(model_id, req_param)
+
+
+def test_model_blocking(host, jwt_model, jwt_backend, model_id):
+    model_client = SdClient(Configuration(host, access_token=jwt_model))
+    backend_client = SdClient(Configuration(host, access_token=jwt_backend))
+
+    # Fetch a model.
+    res_model = ModelApi(backend_client).get_model(model_id)
+    res_blocking_reasons = res_model.setting.model.blocking_reasons
+    assert res_blocking_reasons.owner == False
+    assert res_blocking_reasons.credit_limit == False
+    assert res_blocking_reasons.plugin_permission == False
+
+    # Block the model.
+    req_blocking = ReqModel(blocking_reasons=ReqModelBlockingReasons(owner=True))
+    ModelApi(backend_client).update_model(model_id, req_blocking)
+
+    # Fetch a model.
+    res_model = ModelApi(backend_client).get_model(model_id)
+    res_blocking_reasons = res_model.setting.model.blocking_reasons
+    assert res_blocking_reasons.owner == True
+    assert res_blocking_reasons.credit_limit == False
+    assert res_blocking_reasons.plugin_permission == False
+
+    # Init session should not work anymore.
+    with raises(ApiException):
+        SessionApi(model_client).create_session_by_model(model_id)
+
+    # Unblock the model.
+    req_blocking = ReqModel(blocking_reasons=ReqModelBlockingReasons(owner=False))
+    ModelApi(backend_client).update_model(model_id, req_blocking)
+
+    # Session init should work again.
+    session_id = SessionApi(model_client).create_session_by_model(model_id).session_id
+    SessionApi(model_client).close_session(session_id)
 
 
 def test_soft_delete_and_restore(host, jwt_model, jwt_backend, model_id):
