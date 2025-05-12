@@ -170,17 +170,21 @@ def submit_and_wait_for_output(
     session_id: str,
     body: ReqCustomization,
     max_wait_ms: int,
+    ignoreUnknownParams: Optional[bool] = False,
 ) -> Union[ResComputeOutputs, ResGetCachedOutputs]:
     """Submit a customization request and wait for the result to be finished.
 
     :param client: The client instance to be used.
     :param session_id: The session ID of the model.
     :param body: The customization request to be submitted.
-    :param max_wait: The maximum time to wait for results, in milliseconds.
+    :param max_wait_ms: The maximum time to wait for results, in milliseconds.
         Pass a value smaller than zero to disable this limit.
+    :param ignoreUnknownParams: Allow relaxed validation of parameter identifiers.
+        When set to `true`, unrecognized parameters will be ignored rather than causing an error.
+        Defaults to `false`.
     """
     start_time = time.time()
-    res = OutputApi(client).compute_outputs(session_id, body)
+    res = OutputApi(client).compute_outputs(session_id, body, ignoreUnknownParams)
     elapsed_time_ms = (time.time() - start_time) * 1000
 
     remaining_max_wait = (
@@ -195,6 +199,7 @@ def submit_and_wait_for_export(
     session_id: str,
     body: ReqExport,
     max_wait_ms: int,
+    ignoreUnknownParams: Optional[bool] = False,
 ) -> Union[ResComputeExports, ResGetCachedExports]:
     """Submit an export request and wait for the result to be finished.
 
@@ -203,9 +208,12 @@ def submit_and_wait_for_export(
     :param body: The export request to be submitted.
     :param max_wait_ms: The maximum time to wait for results, in milliseconds.
         Pass a value smaller than zero to disable this limit.
+    :param ignoreUnknownParams: Allow relaxed validation of parameter identifiers.
+        When set to `true`, unrecognized parameters will be ignored rather than causing an error.
+        Defaults to `false`.
     """
     start_time = time.time()
-    res = ExportApi(client).compute_exports(session_id, body)
+    res = ExportApi(client).compute_exports(session_id, body, ignoreUnknownParams)
     elapsed_time_ms = (time.time() - start_time) * 1000
 
     remaining_max_wait = (
