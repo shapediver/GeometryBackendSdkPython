@@ -108,18 +108,22 @@ def test_model_blocking(host, jwt_model, jwt_backend, model_id):
 
     # Fetch a model.
     res_model = ModelApi(backend_client).get_model(model_id)
+    assert res_model.setting.model
     res_blocking_reasons = res_model.setting.model.blocking_reasons
+    assert res_blocking_reasons
     assert res_blocking_reasons.owner == False
     assert res_blocking_reasons.credit_limit == False
     assert res_blocking_reasons.plugin_permission == False
 
     # Block the model.
-    req_blocking = ReqModel(blocking_reasons=ReqModelBlockingReasons(owner=True))
+    req_blocking = ReqModel(blockingReasons=ReqModelBlockingReasons(owner=True))
     ModelApi(backend_client).update_model(model_id, req_blocking)
 
     # Fetch a model.
     res_model = ModelApi(backend_client).get_model(model_id)
+    assert res_model.setting.model
     res_blocking_reasons = res_model.setting.model.blocking_reasons
+    assert res_blocking_reasons
     assert res_blocking_reasons.owner == True
     assert res_blocking_reasons.credit_limit == False
     assert res_blocking_reasons.plugin_permission == False
@@ -129,7 +133,7 @@ def test_model_blocking(host, jwt_model, jwt_backend, model_id):
         SessionApi(model_client).create_session_by_model(model_id)
 
     # Unblock the model.
-    req_blocking = ReqModel(blocking_reasons=ReqModelBlockingReasons(owner=False))
+    req_blocking = ReqModel(blockingReasons=ReqModelBlockingReasons(owner=False))
     ModelApi(backend_client).update_model(model_id, req_blocking)
 
     # Session init should work again.

@@ -66,7 +66,7 @@ def test_model_state_from_ar_scene(utils, host, jwt_backend):
     # Create minimal Model-State from AR scene.
     req_model_state = ReqModelState(
         parameters=ReqCustomization(),
-        ar_scene_id=res_upload.gltf.scene_id,
+        arSceneId=res_upload.gltf.scene_id,
     )
     res_model_state = ModelStateApi(client).create_model_state(
         session_id, req_model_state

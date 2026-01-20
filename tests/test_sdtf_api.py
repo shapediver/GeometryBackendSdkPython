@@ -28,7 +28,7 @@ def test_sdtf(utils, host, jwt_model):
             [
                 ReqSdtfDefinition(
                     content_length=len(s),
-                    content_type=ReqSdtfType.MODEL_SLASH_VND_DOT_SDTF,
+                    content_type=ReqSdtfType.MODEL_SDTF,
                     namespace=namespace,
                 )
             ],
