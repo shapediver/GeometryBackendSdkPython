@@ -932,14 +932,6 @@ shapediver.geometry\_api\_v2.client.models.res\_export\_definition module
    :show-inheritance:
    :undoc-members:
 
-shapediver.geometry\_api\_v2.client.models.res\_export\_definition\_group module
---------------------------------------------------------------------------------
-
-.. automodule:: shapediver.geometry_api_v2.client.models.res_export_definition_group
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
 shapediver.geometry\_api\_v2.client.models.res\_export\_definition\_type module
 -------------------------------------------------------------------------------
 
@@ -1112,6 +1104,14 @@ shapediver.geometry\_api\_v2.client.models.res\_get\_organization\_credit\_metri
 -----------------------------------------------------------------------------------------
 
 .. automodule:: shapediver.geometry_api_v2.client.models.res_get_organization_credit_metrics
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+shapediver.geometry\_api\_v2.client.models.res\_get\_scale\_in\_candidate module
+--------------------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_get_scale_in_candidate
    :members:
    :show-inheritance:
    :undoc-members:
@@ -1484,14 +1484,6 @@ shapediver.geometry\_api\_v2.client.models.res\_output\_definition module
    :show-inheritance:
    :undoc-members:
 
-shapediver.geometry\_api\_v2.client.models.res\_output\_definition\_group module
---------------------------------------------------------------------------------
-
-.. automodule:: shapediver.geometry_api_v2.client.models.res_output_definition_group
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
 shapediver.geometry\_api\_v2.client.models.res\_output\_list module
 -------------------------------------------------------------------
 
@@ -1520,14 +1512,6 @@ shapediver.geometry\_api\_v2.client.models.res\_parameter module
 ----------------------------------------------------------------
 
 .. automodule:: shapediver.geometry_api_v2.client.models.res_parameter
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-shapediver.geometry\_api\_v2.client.models.res\_parameter\_group module
------------------------------------------------------------------------
-
-.. automodule:: shapediver.geometry_api_v2.client.models.res_parameter_group
    :members:
    :show-inheritance:
    :undoc-members:
@@ -1812,6 +1796,14 @@ shapediver.geometry\_api\_v2.client.models.res\_rate\_limited\_session\_metric m
    :show-inheritance:
    :undoc-members:
 
+shapediver.geometry\_api\_v2.client.models.res\_scale\_in\_candidate module
+---------------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_scale_in_candidate
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 shapediver.geometry\_api\_v2.client.models.res\_sdtf\_asset module
 ------------------------------------------------------------------
 
@@ -2064,6 +2056,14 @@ shapediver.geometry\_api\_v2.client.models.res\_worker\_plugins module
 ----------------------------------------------------------------------
 
 .. automodule:: shapediver.geometry_api_v2.client.models.res_worker_plugins
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+shapediver.geometry\_api\_v2.client.models.res\_worker\_scale\_in\_candidate module
+-----------------------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_worker_scale_in_candidate
    :members:
    :show-inheritance:
    :undoc-members:
