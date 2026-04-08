@@ -113,6 +113,7 @@ def test_model_blocking(host, jwt_model, jwt_backend, model_id):
     assert res_blocking_reasons
     assert res_blocking_reasons.owner == False
     assert res_blocking_reasons.credit_limit == False
+    assert res_blocking_reasons.backend_permission == False
     assert res_blocking_reasons.plugin_permission == False
 
     # Block the model.
@@ -126,6 +127,7 @@ def test_model_blocking(host, jwt_model, jwt_backend, model_id):
     assert res_blocking_reasons
     assert res_blocking_reasons.owner == True
     assert res_blocking_reasons.credit_limit == False
+    assert res_blocking_reasons.backend_permission == False
     assert res_blocking_reasons.plugin_permission == False
 
     # Init session should not work anymore.
