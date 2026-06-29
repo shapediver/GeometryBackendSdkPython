@@ -348,22 +348,6 @@ shapediver.geometry\_api\_v2.client.models.req\_model\_state module
    :show-inheritance:
    :undoc-members:
 
-shapediver.geometry\_api\_v2.client.models.req\_model\_statistic module
------------------------------------------------------------------------
-
-.. automodule:: shapediver.geometry_api_v2.client.models.req_model_statistic
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-shapediver.geometry\_api\_v2.client.models.req\_model\_statistics module
-------------------------------------------------------------------------
-
-.. automodule:: shapediver.geometry_api_v2.client.models.req_model_statistics
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
 shapediver.geometry\_api\_v2.client.models.req\_model\_user\_credit\_metric\_id module
 --------------------------------------------------------------------------------------
 
@@ -1080,14 +1064,6 @@ shapediver.geometry\_api\_v2.client.models.res\_get\_model\_state\_data module
 ------------------------------------------------------------------------------
 
 .. automodule:: shapediver.geometry_api_v2.client.models.res_get_model_state_data
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-shapediver.geometry\_api\_v2.client.models.res\_get\_model\_statistics module
------------------------------------------------------------------------------
-
-.. automodule:: shapediver.geometry_api_v2.client.models.res_get_model_statistics
    :members:
    :show-inheritance:
    :undoc-members:
