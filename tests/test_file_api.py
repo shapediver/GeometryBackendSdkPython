@@ -1,3 +1,6 @@
+import re
+from datetime import datetime
+
 from shapediver.geometry_api_v2 import (
     Configuration,
     FileApi,
@@ -73,6 +76,17 @@ def test_file_parameter(utils, host, jwt_model):
     # List all files of a specific file-parameter.
     res_list = FileApi(model_client).list_files(session_id, file_params[0].id)
     assert len(res_list.list.file) > 0
+
+    listed = [entry for entry in res_list.list.file if entry.id == file.id]
+    assert len(listed) == 1
+    stamp = listed[0].last_modified
+    assert re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z", stamp)
+    parsed = datetime.strptime(stamp, "%Y-%m-%dT%H:%M:%S.%fZ")
+    assert (
+        parsed.strftime("%Y-%m-%dT%H:%M:%S.")
+        + f"{parsed.microsecond // 1000:03d}Z"
+        == stamp
+    )
 
     # Delete the uploaded file.
     FileApi(model_client).delete_file(session_id, file_params[0].id, file.id)
