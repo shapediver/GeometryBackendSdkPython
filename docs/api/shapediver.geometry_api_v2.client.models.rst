@@ -1052,6 +1052,14 @@ shapediver.geometry\_api\_v2.client.models.res\_get\_model\_organization\_credit
    :show-inheritance:
    :undoc-members:
 
+shapediver.geometry\_api\_v2.client.models.res\_get\_model\_sessions\_analytics module
+--------------------------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_get_model_sessions_analytics
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 shapediver.geometry\_api\_v2.client.models.res\_get\_model\_state module
 ------------------------------------------------------------------------
 
@@ -1324,6 +1332,30 @@ shapediver.geometry\_api\_v2.client.models.res\_model\_organization\_credit\_met
    :show-inheritance:
    :undoc-members:
 
+shapediver.geometry\_api\_v2.client.models.res\_model\_session module
+---------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_model_session
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+shapediver.geometry\_api\_v2.client.models.res\_model\_session\_request module
+------------------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_model_session_request
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+shapediver.geometry\_api\_v2.client.models.res\_model\_session\_statistics module
+---------------------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_model_session_statistics
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 shapediver.geometry\_api\_v2.client.models.res\_model\_settings module
 ----------------------------------------------------------------------
 
@@ -1568,6 +1600,14 @@ shapediver.geometry\_api\_v2.client.models.res\_part\_model\_computation module
 -------------------------------------------------------------------------------
 
 .. automodule:: shapediver.geometry_api_v2.client.models.res_part_model_computation
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+shapediver.geometry\_api\_v2.client.models.res\_part\_model\_sessions module
+----------------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.res_part_model_sessions
    :members:
    :show-inheritance:
    :undoc-members:
@@ -2024,6 +2064,14 @@ shapediver.geometry\_api\_v2.client.models.res\_worker\_system module
 ---------------------------------------------------------------------
 
 .. automodule:: shapediver.geometry_api_v2.client.models.res_worker_system
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+shapediver.geometry\_api\_v2.client.models.session\_analytics\_status module
+----------------------------------------------------------------------------
+
+.. automodule:: shapediver.geometry_api_v2.client.models.session_analytics_status
    :members:
    :show-inheritance:
    :undoc-members:
