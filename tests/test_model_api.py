@@ -111,10 +111,10 @@ def test_model_blocking(host, jwt_model, jwt_backend, model_id):
     assert res_model.setting.model
     res_blocking_reasons = res_model.setting.model.blocking_reasons
     assert res_blocking_reasons
-    assert res_blocking_reasons.owner == False
-    assert res_blocking_reasons.credit_limit == False
-    assert res_blocking_reasons.backend_permission == False
-    assert res_blocking_reasons.plugin_permission == False
+    assert res_blocking_reasons.owner is False
+    assert res_blocking_reasons.credit_limit is False
+    assert res_blocking_reasons.backend_permission is False
+    assert res_blocking_reasons.plugin_permission is False
 
     # Block the model.
     req_blocking = ReqModel(blockingReasons=ReqModelBlockingReasons(owner=True))
@@ -125,10 +125,10 @@ def test_model_blocking(host, jwt_model, jwt_backend, model_id):
     assert res_model.setting.model
     res_blocking_reasons = res_model.setting.model.blocking_reasons
     assert res_blocking_reasons
-    assert res_blocking_reasons.owner == True
-    assert res_blocking_reasons.credit_limit == False
-    assert res_blocking_reasons.backend_permission == False
-    assert res_blocking_reasons.plugin_permission == False
+    assert res_blocking_reasons.owner is True
+    assert res_blocking_reasons.credit_limit is False
+    assert res_blocking_reasons.backend_permission is False
+    assert res_blocking_reasons.plugin_permission is False
 
     # Init session should not work anymore.
     with raises(ApiException):

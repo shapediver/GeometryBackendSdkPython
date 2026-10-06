@@ -1,8 +1,12 @@
 from time import sleep
 from typing import Any, Optional
 
-from shapediver.geometry_api_v2.client import ApiClient, ApiException, Configuration
-from shapediver.geometry_api_v2.client import rest
+from shapediver.geometry_api_v2.client import (
+    ApiClient,
+    ApiException,
+    Configuration,
+    rest,
+)
 
 
 class SdClient(ApiClient):

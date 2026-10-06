@@ -58,6 +58,25 @@ repos:
       - id: flake8
     ## You can add flake8 plugins via `additional_dependencies`:
     #  additional_dependencies: [flake8-bugbear]
+
+  # Uses the project config, which excludes the generated client.
+  - repo: local
+    hooks:
+      - id: pyright
+        name: pyright
+        entry: pyright
+        language: system
+        pass_filenames: false
+        types: [python]
+
+      # Scans the generated client too, so its declared packages count as used.
+      - id: deptry
+        name: deptry
+        entry: deptry src
+        language: python
+        additional_dependencies: ["deptry==0.25.1"]
+        pass_filenames: false
+        always_run: true
 ## Check for misspells in documentation files:
 # - repo: https://github.com/codespell-project/codespell
 #   rev: v2.2.5
