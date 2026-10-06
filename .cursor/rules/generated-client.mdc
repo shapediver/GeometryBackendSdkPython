@@ -1,0 +1,18 @@
+---
+description: Never hand-edit the generated Geometry Backend client or oas_spec.yaml. Do not publish spec versions.
+alwaysApply: true
+---
+
+# Generated Geometry Backend client
+
+`src/shapediver/geometry_api_v2/client/**`, `oas_spec.yaml`, and the block between the `AUTO-GENERATED CODE` markers in `requirements.txt` are outputs of `just generate <version>`. Do not create, edit, delete, format, revert, or patch them by hand, script, or formatter.
+
+Run `just generate <version>` only when the user explicitly asks to generate a version that is already published. A request to fix or extend the client is not that ask. The version is the suffix of an existing `gb_v2@` tag in shapediver/OpenApiSpecifications. Tag `gb_v2@1.0.0` means version `1.0.0`. The recipe downloads that tag's `geometry_backend_v2.yaml`, replaces `src/shapediver/geometry_api_v2/client`, rewrites the generated dependency block, and commits the whole worktree with `git add -A`. Do not run it while other work is in the tree.
+
+Never pass `local`. Do not run `just test-generator`. Both read `../OpenApiSpecifications/geometry_backend_v2.yaml` instead of a published tag.
+
+The recipe applies no post-generation source patches. Do not add any, and do not rewrite the dependency block by hand.
+
+If the client is wrong, stop. Do not edit OpenApiSpecifications, publish a tag, or generate. Tell the user the endpoint or schema, what is wrong, and the spec change that would fix it.
+
+Code outside `client`, such as `sd_client.py`, `sd_utils.py`, and `__init__.py`, stays editable.
