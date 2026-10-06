@@ -1,6 +1,6 @@
 set shell := ["bash", "-uc"]
 
-python_version := "3.9"
+python_version := "3.13"
 
 remote_url := "https://raw.githubusercontent.com/shapediver/OpenApiSpecifications"
 remote_tag_prefix := "gb_v2"
@@ -22,7 +22,7 @@ setup:
     command -v python{{python_version}}
 
     # Creates a virtual environment for Python.
-    python{{python_version}} -m venv './.venv'
+    python{{python_version}} -m venv --clear './.venv'
 
     # Update pip.
     .venv/bin/python{{python_version}} -m pip install --upgrade pip

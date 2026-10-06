@@ -98,13 +98,13 @@ usability.
 
 ### Prerequisites
 
-This project is written in _Python 3_ and uses version **3.9.x**. For Unix systems, we recommend
+This project is written in _Python 3_ and uses version **3.13.x**. For Unix systems, we recommend
 [pyenv](https://github.com/pyenv/pyenv) to install and manage multiple Python versions. Once
 installed, run the following commands:
 
 ```bash
-pyenv install -v 3.9
-pyenv global 3.9
+pyenv install -v 3.13
+pyenv global 3.13
 ```
 
 Additionally, we use some tools for various tasks. We recommend
