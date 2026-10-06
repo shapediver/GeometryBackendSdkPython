@@ -113,6 +113,7 @@ run the following commands:
 
 ```bash
 pipx install pre-commit
+pipx install pyright
 pipx install twine
 pipx install tox
 pipx install pyscaffold
@@ -130,7 +131,6 @@ and to install all dependencies:
 ```bash
 just setup
 source .venv/bin/activate
-pre-commit install
 ```
 
 It is a good idea to update the hooks to the latest version via `pre-commit autoupdate`.

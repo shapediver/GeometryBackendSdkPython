@@ -44,6 +44,8 @@ def _until_row(load, accept):
             if attempt == 7:
                 raise
             time.sleep(1)
+    # The last attempt always raises. This keeps the inferred return type free of None.
+    raise RuntimeError("analytics poll ended without a row")
 
 
 # Close at most once. The flag flips only after close_session returns, so a failed close
@@ -80,6 +82,7 @@ def test_model_sessions_analytics(utils, host, jwt_model, model_id):
         )
 
     try:
+
         def accept_open(page):
             row = _sole_session(page.sessions, session_id)
             if row.status != SessionAnalyticsStatus.OPEN:

@@ -7,3 +7,24 @@ build-backend = "setuptools.build_meta"
 # For smarter version schemes and other configuration options,
 # check out https://github.com/pypa/setuptools_scm
 version_scheme = "no-guess-dev"
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.10"
+include = ["src", "tests"]
+exclude = [
+    "**/__pycache__",
+    # Generated OpenAPI client; pyright diagnostics are out of scope.
+    "src/shapediver/geometry_api_v2/client",
+]
+
+[tool.deptry]
+known_first_party = ["shapediver"]
+
+[tool.deptry.package_module_name_map]
+python_dateutil = "dateutil"
+
+[tool.deptry.per_rule_ignores]
+# The generated client imports pydantic_core. pydantic installs it.
+DEP001 = ["pydantic_core"]

@@ -32,6 +32,9 @@ setup:
       -r 'requirements.txt' \
       -r 'requirements_dev.txt'
 
+    # Git hook. pre-commit itself comes from the pipx prerequisite.
+    pre-commit install
+
 # Removes the virtual environment and all build artifacts
 reset: clean
     rm -rf './.venv'
@@ -56,6 +59,11 @@ test:
 [no-exit-message]
 check:
     pre-commit run --all-files
+
+# Type-check hand-written code and tests.
+[no-exit-message]
+typecheck:
+    pyright
 
 # Release the Python package with the specified version.
 release version:
